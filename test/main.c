@@ -51,7 +51,6 @@ void GameLoop()
             Game.running = 0;
     }
 
-    // VACA_ClearScreen(Game.V, 0, 0, 0);
     printf("%d\n", Game.frame++);
 
     switch(Game.scene)
