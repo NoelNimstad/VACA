@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "VACA/VACA.h"
 
 enum scenes
@@ -20,7 +21,7 @@ struct
 
 void Initialize()
 {
-    Game.V = VACA_Initialize("BOMBERMAN", 256, 240, 1, 60);
+    Game.V = VACA_Initialize("BOMBERMAN", 256, 240, 1, 30);
 
     Game.sprites[0] = VACA_CreateSprite(Game.V, 
                                         "assets/title.png", 
@@ -58,8 +59,16 @@ void GameLoop()
         case TitleScreen:
             VACA_DrawSprite(Game.V, Game.sprites[0]);
 
-            VACA_SelectSpriteFromSpritesheet(Game.spritesheets[0], Game.frame % 9, 0);
-            VACA_DrawSpriteFromSpritesheet(Game.V, Game.spritesheets[0]);
+            char frameCounter[9];
+            SDL_itoa(Game.frame, &frameCounter, 10);
+
+            for(int i = 0; i < 9; i++)
+            {
+                VACA_SelectSpriteFromSpritesheet(Game.spritesheets[0], frameCounter[i] - 48, 0);
+                Game.spritesheets[0] -> rect.x = 96 + i * 8;
+
+                VACA_DrawSpriteFromSpritesheet(Game.V, Game.spritesheets[0]);
+            }
 
             VACA_RenderPresent(Game.V);
             VACA_MaintainFrameRate(Game.V);
