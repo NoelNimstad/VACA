@@ -7,63 +7,70 @@
 
 enum scenes
 {
-    VACA_Splash,
     TitleScreen
 };
 
 struct
 {
     VACA *V;
-    Sprite *sprites[2];
+    Sprite *sprites[1];
+
+    int frame;
+    int running;
+
+    enum scenes scene;
 } Game;
 
-void LoadGameAssets()
+void Initialize()
 {
-    Game.sprites[0] = VACA_CreateSprite(Game.V, "assets/logo.png", 300, 200, 0, 0);
-    Game.sprites[1] = VACA_CreateSprite(Game.V, "assets/title.png", 256, 240, 0, 0);
+    Game.V = VACA_Initialize("BOMBERMAN", 256, 240, 1, 60);
+
+    Game.sprites[0] = VACA_CreateSprite(Game.V, "assets/title.png", 256, 240, 0, 0);
+
+    Game.frame = 0;
+    Game.running = 1;
+
+    Game.scene = TitleScreen;
+
+    VACA_DrawSprite(Game.V, Game.sprites[0]);
+    VACA_RenderPresent(Game.V);
+}
+
+void GameLoop()
+{
+    while(VACA_PollEvent(Game.V))
+    {
+        if(Game.V -> event.type == SDL_QUIT) 
+            Game.running = 0;
+    }
+
+    // VACA_ClearScreen(Game.V, 0, 0, 0);
+    printf("%d\n", Game.frame++);
+
+    switch(Game.scene)
+    {
+        case TitleScreen:
+            VACA_MaintainFrameRate(Game.V);
+            break;
+    }
+}
+
+void CleanUp()
+{
+    VACA_DestroySprite(Game.sprites[0]);
+    VACA_Destroy(Game.V);
 }
 
 int main(void)
 {
-    Game.V = VACA_Initialize("BOMBERMAN", 256, 240, 1, 60);
-    LoadGameAssets();
+    Initialize();
 
-    int running = 1;
-    int frame = 0;
-    enum scenes scene = VACA_Splash;
-    while(running)
+    while(Game.running)
     {
-        while(VACA_PollEvent(Game.V))
-        {
-            if(Game.V -> event.type == SDL_QUIT) { running = 0; };
-        }
-
-        VACA_ClearScreen(Game.V, 0, 0, 0);
-
-        printf("%d\n", frame++);
-
-        switch(scene)
-        {
-            case VACA_Splash:
-                VACA_SetSpriteOpacity(Game.sprites[0], 255 * ((float)frame / 120.0f));
-                VACA_DrawSprite(Game.V, Game.sprites[0]);
-                if(frame > 120)
-                {
-                    scene = TitleScreen;
-                    VACA_DestroySprite(Game.sprites[0]);
-                }
-                break;
-            case TitleScreen:
-                VACA_DrawSprite(Game.V, Game.sprites[1]);
-                break;
-        }
-
-        VACA_RenderPresent(Game.V);
-        VACA_MaintainFrameRate(Game.V);
+        GameLoop();
     }
 
-    VACA_DestroySprite(Game.sprites[1]);
-    VACA_Destroy(Game.V);
+    CleanUp();
 
     return 0;
 }
