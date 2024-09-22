@@ -12,28 +12,39 @@ enum scenes
 
 struct
 {
-    VACA *V;
-    Sprite *sprites[1];
+    VACA        *V;
+    Sprite      *sprites[1];
+    Spritesheet *spritesheets[1];
 
-    int frame;
-    int running;
+    int          frame;
+    int          running;
 
-    enum scenes scene;
+    enum scenes  scene;
 } Game;
 
 void Initialize()
 {
     Game.V = VACA_Initialize("BOMBERMAN", 256, 240, 1, 60);
 
-    Game.sprites[0] = VACA_CreateSprite(Game.V, "assets/title.png", 256, 240, 0, 0);
+    Game.sprites[0] = VACA_CreateSprite(Game.V, 
+                                        "assets/title.png", 
+                                        256, 
+                                        240, 
+                                        0, 
+                                        0);
+    Game.spritesheets[0] = VACA_CreateSpritesheet(Game.V, 
+                                                  "assets/alphanum1.png", 
+                                                  208, 
+                                                  16, 
+                                                  8, 
+                                                  8,
+                                                  96, 
+                                                  208);
 
     Game.frame = 0;
     Game.running = 1;
 
     Game.scene = TitleScreen;
-
-    VACA_DrawSprite(Game.V, Game.sprites[0]);
-    VACA_RenderPresent(Game.V);
 }
 
 void GameLoop()
@@ -50,6 +61,12 @@ void GameLoop()
     switch(Game.scene)
     {
         case TitleScreen:
+            VACA_DrawSprite(Game.V, Game.sprites[0]);
+
+            VACA_SelectSpriteFromSpritesheet(Game.spritesheets[0], Game.frame % 9, 0);
+            VACA_DrawSpriteFromSpritesheet(Game.V, Game.spritesheets[0]);
+
+            VACA_RenderPresent(Game.V);
             VACA_MaintainFrameRate(Game.V);
             break;
     }
@@ -58,6 +75,7 @@ void GameLoop()
 void CleanUp()
 {
     VACA_DestroySprite(Game.sprites[0]);
+    VACA_DestroySpritesheet(Game.spritesheets[0]);
     VACA_Destroy(Game.V);
 }
 

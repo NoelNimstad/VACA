@@ -43,4 +43,12 @@ typedef struct Sprite
     SDL_Texture  *_SDL_Texture;
 } Sprite;
 
+typedef struct Spritesheet
+{
+    SDL_Rect      rect;
+
+    SDL_Rect      _sourceRect; 
+    SDL_Texture  *_SDL_Texture;
+} Spritesheet;
+
 #endif // VACA_Rect_h

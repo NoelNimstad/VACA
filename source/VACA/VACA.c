@@ -132,3 +132,44 @@ void VACA_DestroySprite(Sprite *S)
     SDL_DestroyTexture(S -> _SDL_Texture);
     free(S);
 }
+
+Spritesheet *VACA_CreateSpritesheet(VACA *V, const char *path, int width, int height, int tileWidth, int tileHeight, int x, int y)
+{
+    Spritesheet *spritesheet = (Spritesheet*)malloc(sizeof(Spritesheet));
+    spritesheet -> _SDL_Texture = IMG_LoadTexture(V -> _SDL_Renderer, path);
+
+    if(spritesheet -> _SDL_Texture == NULL)
+    {
+        fprintf(stderr, "Failed to load texture:\n%s\n", IMG_GetError());
+        return NULL;
+    }
+
+    spritesheet -> rect.w = tileWidth;
+    spritesheet -> rect.h = tileHeight;
+    spritesheet -> rect.x = x;
+    spritesheet -> rect.y = y;
+
+    spritesheet -> _sourceRect.w = tileWidth;
+    spritesheet -> _sourceRect.h = tileHeight;
+    spritesheet -> _sourceRect.x = 0;
+    spritesheet -> _sourceRect.y = 0;
+
+    return spritesheet;
+}
+
+void VACA_SelectSpriteFromSpritesheet(Spritesheet *SS, int x, int y)
+{
+    SS -> _sourceRect.x = SS -> _sourceRect.w * x;
+    SS -> _sourceRect.y = SS -> _sourceRect.h * y;
+}
+
+void VACA_DrawSpriteFromSpritesheet(VACA *V, Spritesheet *SS)
+{
+    SDL_RenderCopy(V -> _SDL_Renderer, SS -> _SDL_Texture, &SS -> _sourceRect, &SS -> rect);
+}
+
+void VACA_DestroySpritesheet(Spritesheet *SS)
+{
+    SDL_DestroyTexture(SS -> _SDL_Texture);
+    free(SS);
+}
