@@ -1,24 +1,24 @@
 #include <stdio.h>
 
-#include "VACA.h"
+#include "VACA/VACA.h"
 
 #define WIDTH 400
 #define HEIGHT 300
 
 enum Scene
 {
-    SplashScreen,
+    VACA_Splash,
     DoNothing
 };
 
 int main(void)
 {
-    VACA *V = VACA_Initialize("Bomberman", 400, 300, 1, 60);
+    VACA *V = VACA_Initialize("BOMBERMAN", 400, 300, 1, 60);
     Sprite *S = VACA_CreateSprite(V, "../assets/logo.png", 300, 200, 50, 50);
 
     int running = 1;
     int frame = 0;
-    enum Scene scene = SplashScreen;
+    enum Scene scene = VACA_Splash;
     while(running)
     {
         while(VACA_PollEvent(V))
@@ -32,7 +32,7 @@ int main(void)
 
         switch(scene)
         {
-            case SplashScreen:
+            case VACA_Splash:
                 VACA_SetSpriteOpacity(S, 255 * ((float)frame / 120.0f));
                 VACA_DrawSprite(V, S);
                 if(frame > 120)
