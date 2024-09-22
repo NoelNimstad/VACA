@@ -5,52 +5,65 @@
 #define WIDTH 400
 #define HEIGHT 300
 
-enum Scene
+enum scenes
 {
     VACA_Splash,
-    DoNothing
+    TitleScreen
 };
+
+struct
+{
+    VACA *V;
+    Sprite *sprites[2];
+} Game;
+
+void LoadGameAssets()
+{
+    Game.sprites[0] = VACA_CreateSprite(Game.V, "assets/logo.png", 300, 200, 0, 0);
+    Game.sprites[1] = VACA_CreateSprite(Game.V, "assets/title.png", 256, 240, 0, 0);
+}
 
 int main(void)
 {
-    VACA *V = VACA_Initialize("BOMBERMAN", 400, 300, 1, 60);
-    Sprite *S = VACA_CreateSprite(V, "../assets/logo.png", 300, 200, 50, 50);
+    Game.V = VACA_Initialize("BOMBERMAN", 256, 240, 1, 60);
+    LoadGameAssets();
 
     int running = 1;
     int frame = 0;
-    enum Scene scene = VACA_Splash;
+    enum scenes scene = VACA_Splash;
     while(running)
     {
-        while(VACA_PollEvent(V))
+        while(VACA_PollEvent(Game.V))
         {
-            if(V -> event.type == SDL_QUIT) { running = 0; };
+            if(Game.V -> event.type == SDL_QUIT) { running = 0; };
         }
 
-        VACA_ClearScreen(V, 0, 0, 0);
+        VACA_ClearScreen(Game.V, 0, 0, 0);
 
         printf("%d\n", frame++);
 
         switch(scene)
         {
             case VACA_Splash:
-                VACA_SetSpriteOpacity(S, 255 * ((float)frame / 120.0f));
-                VACA_DrawSprite(V, S);
+                VACA_SetSpriteOpacity(Game.sprites[0], 255 * ((float)frame / 120.0f));
+                VACA_DrawSprite(Game.V, Game.sprites[0]);
                 if(frame > 120)
                 {
-                    scene = DoNothing;
-                    VACA_DestroySprite(S);
+                    scene = TitleScreen;
+                    VACA_DestroySprite(Game.sprites[0]);
                 }
                 break;
-            case DoNothing:
+            case TitleScreen:
+                VACA_DrawSprite(Game.V, Game.sprites[1]);
                 break;
         }
 
-        VACA_RenderPresent(V);
-        VACA_MaintainFrameRate(V);
+        VACA_RenderPresent(Game.V);
+        VACA_MaintainFrameRate(Game.V);
     }
 
-    VACA_DestroySprite(S);
-    VACA_Destroy(V);
+    VACA_DestroySprite(Game.sprites[1]);
+    VACA_Destroy(Game.V);
 
     return 0;
 }

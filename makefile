@@ -11,11 +11,14 @@ LIBS = -Llibraries
 FROM = source/VACA/*.c test/*.c
 TO = build
 
+ASSETS = test/assets
+
 O = 
 
 all: comp run
 
 comp:
+	cp -r $(ASSETS) $(TO)/
 	$(CC) $(FROM) -o $(TO)/$(NAME)$(RELEASE)$(VERSION) $(INCLUDE) $(LIBS) $(LIBRARIES) $(O)
 
 run:
