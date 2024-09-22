@@ -1,9 +1,5 @@
 #include <stdio.h>
-
 #include "VACA/VACA.h"
-
-#define WIDTH 400
-#define HEIGHT 300
 
 enum scenes
 {
