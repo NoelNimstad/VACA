@@ -10,12 +10,14 @@
 
 VACA *VACA_Initialize(const char *title, int width, int height, int scale, int FPS)
 {
+    // Attempt to initialize SDL
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         fprintf(stderr, "Failed to initialize SDL:\n%s\n", SDL_GetError());
         return NULL;
     }
     
+    // Attempt to initialize SDL_image
     if(IMG_Init(IMG_INIT_PNG) == 0)
     {
         fprintf(stderr, "Failed to initialize SDL_image:\n%s\n", IMG_GetError());
@@ -23,13 +25,16 @@ VACA *VACA_Initialize(const char *title, int width, int height, int scale, int F
         return NULL;
     }
 
+    // Allocate memory for an instance of VACA
     VACA * V = (VACA*)malloc(sizeof(VACA));
-    V -> _width = width;
+    V -> _width = width;   // Asign variables
     V -> _height = height;
     V -> _scale = scale;
 
+    // Calculate the frame delay
     V -> _frameDelay = 1000 / FPS;
 
+    // Attempt to create a SDL_Window
     V -> _SDL_Window = SDL_CreateWindow(title,
                                         SDL_WINDOWPOS_CENTERED,
                                         SDL_WINDOWPOS_CENTERED,
@@ -37,6 +42,7 @@ VACA *VACA_Initialize(const char *title, int width, int height, int scale, int F
                                         V -> _height,
                                         0);
 
+    // Make sure the window was created correctly
     if(V -> _SDL_Window == NULL)
     {
         fprintf(stderr, "Failed to create a SDL Window:\n%s\n", SDL_GetError());
@@ -47,10 +53,12 @@ VACA *VACA_Initialize(const char *title, int width, int height, int scale, int F
         return NULL;
     }
     
+    // Attempt to create a SDL_Renderer
     V -> _SDL_Renderer = SDL_CreateRenderer(V -> _SDL_Window, 
                                             0, 
                                             SDL_RENDERER_ACCELERATED);
 
+    // Make sure the renderer was created correctly
     if(V -> _SDL_Renderer == NULL) 
     {
         fprintf(stderr, "Failed to create a SDL Renderer:\n%s\n", SDL_GetError());
@@ -62,6 +70,7 @@ VACA *VACA_Initialize(const char *title, int width, int height, int scale, int F
         return NULL;
     }
 
+    // Set the last created frame to now
     V -> _lastFrameTime = SDL_GetPerformanceCounter();
 
     return V;

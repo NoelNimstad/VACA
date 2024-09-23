@@ -22,7 +22,7 @@ struct
 
 void Initialize()
 {
-    Game.V = VACA_Initialize("BOMBER MAN", 256, 240, 1, 30);
+    Game.V = VACA_Initialize("BOOM MAN", 256, 240, 1, 30);
 
     Game.sprites[0] = VACA_CreateSprite(Game.V, 
                                         "assets/title.png", 
@@ -59,21 +59,24 @@ void GameLoop()
     switch(Game.scene)
     {
         case TitleScreen:
-            VACA_DrawSprite(Game.V, Game.sprites[0]);
 
-            sprintf(frameCounter, "%d", Game.frame);
+// TITLE SCREEN
+VACA_DrawSprite(Game.V, Game.sprites[0]);
 
-            for(int i = 0; i < 9; i++)
-            {
-                if(frameCounter[i] == '.') break;
-                VACA_SelectSpriteFromSpritesheet(Game.spritesheets[0], frameCounter[i] - 48, 0);
-                Game.spritesheets[0] -> rect.x = 96 + i * 8;
+sprintf(frameCounter, "%d", Game.frame);
 
-                VACA_DrawSpriteFromSpritesheet(Game.V, Game.spritesheets[0]);
-            }
+for(int i = 0; i < 9; i++)
+{
+    if(frameCounter[i] == '.') break;
+    VACA_SelectSpriteFromSpritesheet(Game.spritesheets[0], frameCounter[i] - 48, 0);
+    Game.spritesheets[0] -> rect.x = 96 + i * 8;
 
-            VACA_RenderPresent(Game.V);
-            VACA_MaintainFrameRate(Game.V);
+    VACA_DrawSpriteFromSpritesheet(Game.V, Game.spritesheets[0]);
+}
+
+VACA_RenderPresent(Game.V);
+VACA_MaintainFrameRate(Game.V);
+
             break;
     }
 }
