@@ -1,3 +1,10 @@
+/**
+ * @file VACA.h
+ * @date 2024/09/21
+ * 
+ * Contains definitions for VACA functions, as well as the code for macro-based functions
+ */
+
 #ifndef VACA_h
 #define VACA_h
 
