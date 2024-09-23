@@ -21,7 +21,7 @@ struct
 
 void Initialize()
 {
-    Game.V = VACA_Initialize("BOMBERMAN", 256, 240, 1, 30);
+    Game.V = VACA_Initialize("BOMBER MAN", 256, 240, 1, 30);
 
     Game.sprites[0] = VACA_CreateSprite(Game.V, 
                                         "assets/title.png", 
@@ -52,7 +52,7 @@ void GameLoop()
             Game.running = 0;
     }
 
-    printf("%d\n", Game.frame++);
+    printf("%d %f\n", Game.frame++, Game.V -> deltaTime);
 
     switch(Game.scene)
     {

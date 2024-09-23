@@ -69,6 +69,14 @@ void VACA_Destroy(VACA *V)
     free(V);
 }
 
+/**
+ * @brief Sets the renderer's to inputted RGB color. To be used only within the VACA.c file.
+ * 
+ * @param _V Pointer to the program's VACA struct, of type `VACA*`
+ * @param _r Red color value, of type `unsigned char`
+ * @param _g Green color value, of type `unsigned char`
+ * @param _b Blue color value, of type `unsigned char`
+ */
 #define _VACA_SetRenderDrawColor(_V, _r, _g, _b) SDL_SetRenderDrawColor(_V -> _SDL_Renderer, _r, _g, _b, 255)
 
 void VACA_ClearScreen(VACA *V, unsigned char r, unsigned char g, unsigned char b)
@@ -77,7 +85,7 @@ void VACA_ClearScreen(VACA *V, unsigned char r, unsigned char g, unsigned char b
     SDL_RenderClear(V -> _SDL_Renderer);
 }
 
-void VACA_DrawRect_i(VACA *V, SDL_Rect *rect, unsigned char r, unsigned char g, unsigned char b)
+void VACA_DrawRect(VACA *V, SDL_Rect *rect, unsigned char r, unsigned char g, unsigned char b)
 {
     _VACA_SetRenderDrawColor(V, r, g, b);
     SDL_RenderFillRect(V -> _SDL_Renderer, rect);
@@ -88,11 +96,11 @@ void VACA_MaintainFrameRate(VACA *V)
     Uint64 currentTime = SDL_GetPerformanceCounter();
     Uint64 frequency = SDL_GetPerformanceFrequency();
 
-    double elapsed = (double)((currentTime - V -> _lastFrameTime) * 1000.0 / (double)frequency);
+    V -> deltaTime = (double)((currentTime - V -> _lastFrameTime) * 1000.0 / (double)frequency);
 
-    if(elapsed < V -> _frameDelay)
+    if(V -> deltaTime < V -> _frameDelay)
     {
-        SDL_Delay((Uint32)(V -> _frameDelay - elapsed));
+        SDL_Delay((Uint32)(V -> _frameDelay - V -> deltaTime));
     }
 
     V -> _lastFrameTime = SDL_GetPerformanceCounter();
@@ -115,16 +123,6 @@ Sprite *VACA_CreateSprite(VACA *V, const char *path, int width, int height, int 
     sprite -> rect.y = y;
 
     return sprite;
-}
-
-void VACA_DrawSprite(VACA *V, Sprite *S)
-{
-    SDL_RenderCopy(V -> _SDL_Renderer, S -> _SDL_Texture, NULL, &S -> rect);
-}
-
-void VACA_SetSpriteOpacity(Sprite *S, unsigned char alpha)
-{
-    SDL_SetTextureAlphaMod(S -> _SDL_Texture, alpha);
 }
 
 void VACA_DestroySprite(Sprite *S)
@@ -155,17 +153,6 @@ Spritesheet *VACA_CreateSpritesheet(VACA *V, const char *path, int width, int he
     spritesheet -> _sourceRect.y = 0;
 
     return spritesheet;
-}
-
-void VACA_SelectSpriteFromSpritesheet(Spritesheet *SS, int x, int y)
-{
-    SS -> _sourceRect.x = SS -> _sourceRect.w * x;
-    SS -> _sourceRect.y = SS -> _sourceRect.h * y;
-}
-
-void VACA_DrawSpriteFromSpritesheet(VACA *V, Spritesheet *SS)
-{
-    SDL_RenderCopy(V -> _SDL_Renderer, SS -> _SDL_Texture, &SS -> _sourceRect, &SS -> rect);
 }
 
 void VACA_DestroySpritesheet(Spritesheet *SS)

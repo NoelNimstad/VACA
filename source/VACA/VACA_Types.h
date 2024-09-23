@@ -1,7 +1,7 @@
 /**
  * @file VACA_Types.h
  *
- * This file defines the types used in regards to the VACA SDL wrapper
+ * This file defines the types and type conversion functions used in regards to the VACA SDL wrapper
  */
 
 #ifndef VACA_Rect_h
@@ -13,6 +13,7 @@
 typedef struct VACA
 {
     SDL_Event     event;
+    double        deltaTime;
 
     int           _width;
     int           _height;
@@ -27,20 +28,18 @@ typedef struct VACA
 
 /**
  * @brief Convert an integer 2d vector into a floating point 2d vector
- * @param[in] _v2f Input integer 2d vector
+ * @param _v2f Input integer 2d vector
  * 
  * @return Output floating point 2d vector
  */
-#define VACA_ConvertVector2_i2f(_v2i)((Vector2_f){ _v2i.x, _v2i.y })
-
+#define VACA_ConvertVector2_i2f(_v2i)((Vector2_f){ (_v2i).x, (_v2i).y })
 /**
  * @brief Convert a floating point 2d vector into an integer 2d vector
- * @param[in] _v2f Input floating point 2d vector
+ * @param _v2f Input floating point 2d vector
  * 
  * @return Output integer 2d vector
  */
-#define VACA_ConvertVector2_f2i(_v2f)((Vector2_i){ _v2f.x, _v2f.y })
-
+#define VACA_ConvertVector2_f2i(_v2f)((Vector2_i){ (_v2f).x, (_v2f).y })
 /**
  * @brief An integer 2 dimensional vector 
  */
@@ -48,7 +47,6 @@ typedef struct Vector2_i
 {
     int           x, y;
 } Vector2_i;
-
 /**
  * @brief A floating point 2 dimensional vector 
  */
@@ -66,7 +64,6 @@ typedef struct Sprite
     
     SDL_Texture  *_SDL_Texture;
 } Sprite;
-
 /**
  * @brief Multiple sprites
  */
