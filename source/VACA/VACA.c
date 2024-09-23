@@ -3,6 +3,7 @@
  * @date 2024/09/21
  * 
  * Contains code for VACA functions defined in VACA.h
+ * @note See comments for the purpose of each function in VACA.h
  */
 
 #include "VACA.h"
