@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "VACA/VACA.h"
 
 enum scenes
@@ -44,6 +45,7 @@ void Initialize()
     Game.scene = TitleScreen;
 }
 
+char frameCounter[9] = ".........";
 void GameLoop()
 {
     while(VACA_PollEvent(Game.V))
@@ -59,11 +61,11 @@ void GameLoop()
         case TitleScreen:
             VACA_DrawSprite(Game.V, Game.sprites[0]);
 
-            char frameCounter[9];
-            SDL_itoa(Game.frame, &frameCounter, 10);
+            sprintf(frameCounter, "%d", Game.frame);
 
             for(int i = 0; i < 9; i++)
             {
+                if(frameCounter[i] == '.') break;
                 VACA_SelectSpriteFromSpritesheet(Game.spritesheets[0], frameCounter[i] - 48, 0);
                 Game.spritesheets[0] -> rect.x = 96 + i * 8;
 
