@@ -54,7 +54,8 @@ void GameLoop()
             Game.running = 0;
     }
 
-    printf("%d %f\n", Game.frame++, Game.V -> deltaTime);
+    Game.frame++;
+    //printf("%d %f\n", Game.frame++, Game.V -> deltaTime);
 
     switch(Game.scene)
     {

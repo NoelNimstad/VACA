@@ -22,6 +22,7 @@ typedef struct VACA
 
     float         _frameDelay;
     Uint64        _lastFrameTime;
+    double        _performanceFrequency;
 
     SDL_Window   *_SDL_Window;
     SDL_Renderer *_SDL_Renderer;

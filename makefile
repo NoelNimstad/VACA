@@ -13,7 +13,7 @@ TO = build
 
 ASSETS = test/assets
 
-O = 
+O = -O2
 
 all: comp run
 

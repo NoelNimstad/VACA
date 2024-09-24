@@ -27,20 +27,21 @@ VACA *VACA_Initialize(const char *title, int width, int height, int scale, int F
 
     // Allocate memory for an instance of VACA
     VACA * V = (VACA*)malloc(sizeof(VACA));
-    V -> _width = width;   // Asign variables
-    V -> _height = height;
-    V -> _scale = scale;
 
-    // Calculate the frame delay
+    V -> _width = width;   // Asign variables
+    V -> _height = height; // 
+    V -> _scale = scale;   //
+
+    // Calculate the frame delay (1000 ms / frames per second)
     V -> _frameDelay = 1000 / FPS;
 
     // Attempt to create a SDL_Window
     V -> _SDL_Window = SDL_CreateWindow(title,
-                                        SDL_WINDOWPOS_CENTERED,
-                                        SDL_WINDOWPOS_CENTERED,
+                                        SDL_WINDOWPOS_CENTERED, // Center window
+                                        SDL_WINDOWPOS_CENTERED, //
                                         V -> _width,
                                         V -> _height,
-                                        0);
+                                        0);                     // No special initialization 
 
     // Make sure the window was created correctly
     if(V -> _SDL_Window == NULL)
@@ -70,8 +71,8 @@ VACA *VACA_Initialize(const char *title, int width, int height, int scale, int F
         return NULL;
     }
 
-    // Set the last created frame to now
-    V -> _lastFrameTime = SDL_GetPerformanceCounter();
+    V -> _lastFrameTime = SDL_GetPerformanceCounter();          // Get current time
+    V -> _performanceFrequency = SDL_GetPerformanceFrequency(); // Get (the constant) performance frequency
 
     return V;
 }
@@ -110,17 +111,16 @@ void VACA_DrawRect(VACA *V, SDL_Rect *rect, unsigned char r, unsigned char g, un
 
 void VACA_MaintainFrameRate(VACA *V)
 {
-    Uint64 currentTime = SDL_GetPerformanceCounter();
-    Uint64 frequency = SDL_GetPerformanceFrequency();
+    Uint64 currentTime = SDL_GetPerformanceCounter(); // Get current time
 
-    V -> deltaTime = (double)((currentTime - V -> _lastFrameTime) * 1000.0 / (double)frequency);
+    V -> deltaTime = (double)((currentTime - V -> _lastFrameTime) * 1000.0 / V -> _performanceFrequency); // Calculate elapsed time in seconds
 
     if(V -> deltaTime < V -> _frameDelay)
     {
-        SDL_Delay((Uint32)(V -> _frameDelay - V -> deltaTime));
+        SDL_Delay((Uint32)(V -> _frameDelay - V -> deltaTime)); // Delay by the difference between the delta time and elapsed time
     }
 
-    V -> _lastFrameTime = SDL_GetPerformanceCounter();
+    V -> _lastFrameTime = SDL_GetPerformanceCounter(); // Set last frame to now
 }
 
 Sprite *VACA_CreateSprite(VACA *V, const char *path, int width, int height, int x, int y)
