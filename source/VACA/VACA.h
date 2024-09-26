@@ -11,7 +11,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#include "VACA_Types.h"
+#include "VACA_types.h"
 
 /**
  * @brief Initialize the VACA SDL Wrapper struct.
