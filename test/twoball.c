@@ -1,3 +1,11 @@
+/*
+    TODO:
+    - Wall collisions
+    - More balls
+    - Ball collisions
+    - Winning
+*/
+
 #include "VACA/VACA.h"
 
 typedef struct Ball
