@@ -3,6 +3,7 @@
 typedef struct Ball
 {
     Vector2_f     velocity;
+    Vector2_f     position;
     unsigned char image;
 } Ball;
 
@@ -15,9 +16,12 @@ struct
     int           running;
 
     unsigned char state;
+    unsigned char mouse;
 
     Ball         *balls;
+
     Vector2_f     yellowBallVelocity;
+    Vector2_f     yellowBallPosition;
 } Game;
 
 void init()
@@ -41,11 +45,23 @@ int main(int argc, char const *argv[])
 
     unsigned char running = 1;
     while(running)
-    {
+    {   
+        VACA_StartFrame(Game.V);
+
         while(VACA_PollEvent(Game.V))
         {
             if(Game.V -> event.type == SDL_QUIT)
                 running = 0;
+
+            if(Game.V -> event.type == SDL_MOUSEBUTTONDOWN && Game.V -> event.button.button == SDL_BUTTON_LEFT)
+            {
+                Game.mouse = 1;
+            }
+
+            if(Game.V -> event.type == SDL_MOUSEBUTTONUP && Game.V -> event.button.button == SDL_BUTTON_LEFT)
+            {
+                Game.mouse = 0;
+            }
         }
 
         VACA_UpdateMouse(Game.V);
@@ -60,11 +76,12 @@ int main(int argc, char const *argv[])
                 VACA_MoveSprite(Game.sprites[2], Game.V -> mousePosition.x - 12, Game.V -> mousePosition.y - 12);
                 VACA_DrawSprite(Game.V, Game.sprites[2]);
 
-                if(Game.V -> mouseState == 1)
+                if(Game.mouse == 1)
                 {
                     Game.state = 1;
                     VACA_MoveSprite(Game.sprites[1], Game.V -> mousePosition.x - 12, 
-                                                    Game.V -> mousePosition.y - 12)                   
+                                                     Game.V -> mousePosition.y - 12);
+                    Game.mouse = 0;
                 }
                 break;
             case 1:
@@ -76,21 +93,37 @@ int main(int argc, char const *argv[])
                                     Game.V -> mousePosition.y);
 
                 VACA_MoveSprite(Game.sprites[3], Game.V -> mousePosition.x,
-                                                Game.V -> mousePosition.y);
+                                                 Game.V -> mousePosition.y);
                 VACA_DrawSprite(Game.V, Game.sprites[3]);
 
-                if(Game.V -> mouseState == 1)
+                if(Game.mouse == 1)
                 {
-                    float theta = VACA_AngleBetween(Game.V -> mousePosition.x, Game.V -> mousePosition.y, Game.sprites[1] -> rect.x + 7, Game.sprites[1] -> rect.y + 7);
-                    printf("%f %f\n", cosf(theta), sinf(theta));
+                    float theta = VACA_AngleBetween(Game.V -> mousePosition.x, 
+                                                    Game.V -> mousePosition.y, 
+                                                    Game.sprites[1] -> rect.x + 7,
+                                                    Game.sprites[1] -> rect.y + 7);
+
+                    Game.yellowBallVelocity.x = cosf(theta);
+                    Game.yellowBallVelocity.y = sinf(theta);
+                    Game.yellowBallPosition.x = Game.sprites[1] -> rect.x;
+                    Game.yellowBallPosition.y = Game.sprites[1] -> rect.y;
+
+                    printf("%f %f\n", Game.yellowBallVelocity.x, sinf(theta));
                     Game.state = 2;
+                    Game.mouse = 0;
                 }
                 break;
             case 2:
+                Game.yellowBallPosition.x += Game.yellowBallVelocity.x * (Game.V -> deltaTime) * 200;
+                Game.yellowBallPosition.y += Game.yellowBallVelocity.y * (Game.V -> deltaTime) * 200;
+
+                printf("dt%f\n", Game.V -> deltaTime);
+
+                VACA_MoveSprite(Game.sprites[1], Game.yellowBallPosition.x, Game.yellowBallPosition.y);
                 VACA_DrawSprite(Game.V, Game.sprites[1]);
         }
 
-        VACA_MaintainFrameRate(Game.V);
+        VACA_EndFrame(Game.V);
         VACA_RenderPresent(Game.V);
     }
 
@@ -102,32 +135,3 @@ int main(int argc, char const *argv[])
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

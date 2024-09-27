@@ -84,7 +84,13 @@ void         VACA_DrawRect(VACA *V, SDL_Rect *rect, unsigned char r, unsigned ch
  * 
  * @param V Pointer to the program's VACA struct
  */
-void         VACA_MaintainFrameRate(VACA *V);
+void         VACA_StartFrame(VACA *V);
+/**
+ * @brief Maintains the programs target frame rate. Call at the end of each frame.
+ * 
+ * @param V Pointer to the program's VACA struct
+ */
+void         VACA_EndFrame(VACA *V);
 
 /**
  * @brief Macro for polling SDL Events as well as updating mouse infromation
@@ -189,6 +195,16 @@ Spritesheet *VACA_CreateSpritesheet(VACA *V, const char *path, int width, int he
  */
 void         VACA_DestroySpritesheet(Spritesheet *SS);
 
+/**
+ * @brief Macro to calculate the angle between (`_x1`, `_y1`) and (`_x2`, `_y2`)
+ * 
+ * @param _x1 point x1, of type `int`
+ * @param _y1 point y1, of type `int`
+ * @param _x2 point x2, of type `int`
+ * @param _y2 point y2, of type `int`
+ * 
+ * @return A `float` of the angle between the points, in radians
+ */
 #define      VACA_AngleBetween(_x1, _y1, _x2, _y2) (atan2f((_y2) - (_y1), (_x2) - (_x1)))
 
 #endif // VACA_h

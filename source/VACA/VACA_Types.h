@@ -67,7 +67,8 @@ typedef struct VACA
     int           _scale;
 
     float         _frameDelay;
-    Uint64        _lastFrameTime;
+    Uint64        _currentCounter;
+    Uint64        _lastCounter;
     double        _performanceFrequency;
 
     SDL_Window   *_SDL_Window;
