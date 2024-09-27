@@ -25,13 +25,13 @@ void Initialize()
     Game.V = VACA_Initialize("BOOM MAN", 256, 240, 1, 30);
 
     Game.sprites[0] = VACA_CreateSprite(Game.V, 
-                                        "assets/title.png", 
+                                        "assets/boomman/title.png", 
                                         256, 
                                         240, 
                                         0, 
                                         0);
     Game.spritesheets[0] = VACA_CreateSpritesheet(Game.V, 
-                                                  "assets/alphanum1.png", 
+                                                  "assets/boomman/alphanum1.png", 
                                                   208, 
                                                   16, 
                                                   8, 

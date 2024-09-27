@@ -33,6 +33,26 @@ VACA        *VACA_Initialize(const char *title, int width, int height, int scale
 void         VACA_Destroy(VACA *V);
 
 /**
+ * @brief Sets the renderer's to inputted RGB color. To be used only within the VACA.c file.
+ * 
+ * @param _V Pointer to the program's VACA struct, of type `VACA*`
+ * @param _r Red color value, of type `unsigned char`
+ * @param _g Green color value, of type `unsigned char`
+ * @param _b Blue color value, of type `unsigned char`
+ */
+#define      VACA_SetRenderDrawColor(_V, _r, _g, _b) SDL_SetRenderDrawColor(_V -> _SDL_Renderer, _r, _g, _b, 255)
+/**
+ * @brief Macro to draw a line between points (`_x1`, `_y1`) and (`_x2`, `_y2`)
+ * 
+ * @param _V Pointer to the program's VACA struct, of type `VACA*`
+ * @param _x1 point x1, of type `int`
+ * @param _y1 point y1, of type `int`
+ * @param _x2 point x2, of type `int`
+ * @param _y2 point y2, of type `int`
+ */
+#define      VACA_DrawLine(_V, _x1, _y1, _x2, _y2) SDL_RenderDrawLine((_V) -> _SDL_Renderer, (_x1), (_y1), (_x2), (_y2))
+
+/**
  * @brief Clear the screen with inputted RGB color
  * 
  * @param V Pointer to the program's VACA struct
@@ -41,6 +61,12 @@ void         VACA_Destroy(VACA *V);
  * @param b Blue color value
  */
 void         VACA_ClearScreen(VACA *V, unsigned char r, unsigned char g, unsigned char b);
+/**
+ * @brief Clear the screen with the render draw color
+ * 
+ * @param _V Pointer to the program's VACA struct, of type `VACA*`
+ */
+#define      VACA_ClearScreen2(_V) SDL_RenderClear((_V) -> _SDL_Renderer);
 
 /**
  * @brief Draws rectangle 
@@ -61,11 +87,19 @@ void         VACA_DrawRect(VACA *V, SDL_Rect *rect, unsigned char r, unsigned ch
 void         VACA_MaintainFrameRate(VACA *V);
 
 /**
- * @brief Macro for polling SDL Events
+ * @brief Macro for polling SDL Events as well as updating mouse infromation
  * 
  * @param _V The program's VACA struct, of type `VACA*`
  */
 #define      VACA_PollEvent(_V) SDL_PollEvent(&(_V) -> event)
+
+/**
+ * @brief Macro for updating mouse infromation
+ * 
+ * @param _V The program's VACA struct, of type `VACA*`
+ */
+#define      VACA_UpdateMouse(_V) (_V) -> mouseState = SDL_GetMouseState(&(_V) -> mousePosition.x, &(_V) -> mousePosition.y)
+
 /**
  * @brief Macro for putting drawn content to the screen
  * 
@@ -106,6 +140,15 @@ Sprite      *VACA_CreateSprite(VACA *V, const char *path, int width, int height,
  * @param S Pointer to the target sprite
  */
 void         VACA_DestroySprite(Sprite *S);
+/**
+ * @brief Move sprite `_S` to position _X, _Y
+ * 
+ * @param _S Pointer to the target sprite, of type `Sprite*`
+ * @param _X X position, of type `int`
+ * @param _Y Y position, of tpye `int`
+ */
+#define      VACA_MoveSprite(_S, _X, _Y) (_S) -> rect.x = (_X); \
+                                         (_S) -> rect.y = (_Y);
 
 /**
  * @brief Initializes a spritesheet of multiple sprites which can be drawn using the `VACA_DrawSpritesheet` method and can have sprite selected by calling the `VACA_SelectSpriteFromSpritesheet` method
@@ -145,5 +188,7 @@ Spritesheet *VACA_CreateSpritesheet(VACA *V, const char *path, int width, int he
  * @param SS Pointer to the target spritesheet
  */
 void         VACA_DestroySpritesheet(Spritesheet *SS);
+
+#define      VACA_AngleBetween(_x1, _y1, _x2, _y2) (atan2f((_y2) - (_y1), (_x2) - (_x1)))
 
 #endif // VACA_h

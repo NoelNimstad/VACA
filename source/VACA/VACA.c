@@ -87,25 +87,15 @@ void VACA_Destroy(VACA *V)
     free(V);
 }
 
-/**
- * @brief Sets the renderer's to inputted RGB color. To be used only within the VACA.c file.
- * 
- * @param _V Pointer to the program's VACA struct, of type `VACA*`
- * @param _r Red color value, of type `unsigned char`
- * @param _g Green color value, of type `unsigned char`
- * @param _b Blue color value, of type `unsigned char`
- */
-#define _VACA_SetRenderDrawColor(_V, _r, _g, _b) SDL_SetRenderDrawColor(_V -> _SDL_Renderer, _r, _g, _b, 255)
-
 void VACA_ClearScreen(VACA *V, unsigned char r, unsigned char g, unsigned char b)
 {
-    _VACA_SetRenderDrawColor(V, r, g, b);
+    VACA_SetRenderDrawColor(V, r, g, b);
     SDL_RenderClear(V -> _SDL_Renderer);
 }
 
 void VACA_DrawRect(VACA *V, SDL_Rect *rect, unsigned char r, unsigned char g, unsigned char b)
 {
-    _VACA_SetRenderDrawColor(V, r, g, b);
+    VACA_SetRenderDrawColor(V, r, g, b);
     SDL_RenderFillRect(V -> _SDL_Renderer, rect);
 }
 
