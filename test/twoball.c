@@ -9,6 +9,10 @@
 #define MASS 0.16
 #define GRAVITY 9.82
 
+#define SPEED 3
+
+#define MINIMUM_VELOCITY 1
+
 #include "VACA/VACA.h"
 
 typedef struct Ball
@@ -34,7 +38,7 @@ struct
     Vector2_f     yellowBallVelocity;
     Vector2_f     yellowBallPosition;
 
-    float         friction;
+    Vector2_f     friction;
 } Game;
 
 void init()
@@ -47,8 +51,6 @@ void init()
     Game.sprites[3] = VACA_CreateSprite(Game.V, "assets/twoball/cursor.png", 15, 15, 0, 0);
 
     Game.state = 0;
-
-    Game.friction = FRICTION * MASS * GRAVITY;
 }
 
 int main(int argc, char const *argv[])
@@ -118,14 +120,19 @@ int main(int argc, char const *argv[])
                                                     Game.sprites[1] -> rect.x + 7,
                                                     Game.sprites[1] -> rect.y + 7);
 
+                    Vector2_f direction = { cosf(theta), sinf(theta) };
                     float magnitude = SDL_max(VACA_DistanceBetween(Game.V -> mousePosition.x, 
                                                                    Game.V -> mousePosition.y, 
                                                                    Game.sprites[1] -> rect.x + 7,
                                                                    Game.sprites[1] -> rect.y + 7), 
                                               1.0f);
 
-                    Game.yellowBallVelocity.x = cosf(theta) * magnitude;
-                    Game.yellowBallVelocity.y = sinf(theta) * magnitude;
+                    Game.yellowBallVelocity.x = direction.x * magnitude * SPEED;
+                    Game.yellowBallVelocity.y = direction.y * magnitude * SPEED;
+
+                    Game.friction.x = -direction.x * FRICTION * GRAVITY * MASS;
+                    Game.friction.y = -direction.y * FRICTION * GRAVITY * MASS;
+
                     Game.yellowBallPosition.x = Game.sprites[1] -> rect.x;
                     Game.yellowBallPosition.y = Game.sprites[1] -> rect.y;
 
@@ -135,8 +142,18 @@ int main(int argc, char const *argv[])
                 }
                 break;
             case 2:
-                Game.yellowBallVelocity.x -= Game.friction;
-                Game.yellowBallVelocity.y -= Game.friction;
+                Game.yellowBallVelocity.x += Game.friction.x;
+                Game.yellowBallVelocity.y += Game.friction.y;
+
+                if(-MINIMUM_VELOCITY < Game.yellowBallVelocity.x && MINIMUM_VELOCITY > Game.yellowBallVelocity.x
+                && -MINIMUM_VELOCITY < Game.yellowBallVelocity.y && MINIMUM_VELOCITY > Game.yellowBallVelocity.y)
+                {
+                    Game.yellowBallVelocity.x = 0;
+                    Game.yellowBallVelocity.y = 0;
+
+                    Game.state = 0;
+                    break;
+                }
 
                 Game.yellowBallPosition.x += Game.yellowBallVelocity.x * (Game.V -> deltaTime);
                 Game.yellowBallPosition.y += Game.yellowBallVelocity.y * (Game.V -> deltaTime);
@@ -144,11 +161,13 @@ int main(int argc, char const *argv[])
                 if(Game.yellowBallPosition.x < 50 || Game.yellowBallPosition.x > 335)
                 {
                     Game.yellowBallVelocity.x *= -1;
+                    Game.friction.x *= -1;
                     Game.yellowBallPosition.x += Game.yellowBallVelocity.x * (Game.V -> deltaTime);
                 }
                 if(Game.yellowBallPosition.y < 50 || Game.yellowBallPosition.y > 435)
                 {
                     Game.yellowBallVelocity.y *= -1;
+                    Game.friction.y *= -1;
                     Game.yellowBallPosition.y += Game.yellowBallVelocity.y * (Game.V -> deltaTime);
                 }
 
