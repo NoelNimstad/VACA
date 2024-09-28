@@ -206,5 +206,16 @@ void         VACA_DestroySpritesheet(Spritesheet *SS);
  * @return A `float` of the angle between the points, in radians
  */
 #define      VACA_AngleBetween(_x1, _y1, _x2, _y2) (atan2f((_y2) - (_y1), (_x2) - (_x1)))
+/**
+ * @brief Macro to calculate the distance between (`_x1`, `_y1`) and (`_x2`, `_y2`)
+ * 
+ * @param _x1 point x1, of type `int`
+ * @param _y1 point y1, of type `int`
+ * @param _x2 point x2, of type `int`
+ * @param _y2 point y2, of type `int`
+ * 
+ * @return A `float` of the distance between the points
+ */
+#define      VACA_DistanceBetween(_x1, _y1, _x2, _y2) (sqrtf(((_x2) - (_x1)) * ((_x2) - (_x1)) + ((_y2) - (_y1)) * ((_y2) - (_y1))))
 
 #endif // VACA_h

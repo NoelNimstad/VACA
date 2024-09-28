@@ -48,6 +48,8 @@ void Initialize()
 char frameCounter[9] = ".........";
 void GameLoop()
 {
+    VACA_StartFrame(Game.V);
+
     while(VACA_PollEvent(Game.V))
     {
         if(Game.V -> event.type == SDL_QUIT) 
@@ -75,8 +77,8 @@ for(int i = 0; i < 9; i++)
     VACA_DrawSpriteFromSpritesheet(Game.V, Game.spritesheets[0]);
 }
 
+VACA_EndFrame(Game.V);
 VACA_RenderPresent(Game.V);
-VACA_MaintainFrameRate(Game.V);
 
             break;
     }

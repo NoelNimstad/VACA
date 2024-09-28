@@ -1,10 +1,13 @@
 /*
     TODO:
-    - Wall collisions
     - More balls
     - Ball collisions
     - Winning
 */
+
+#define FRICTION 0.2
+#define MASS 0.16
+#define GRAVITY 9.82
 
 #include "VACA/VACA.h"
 
@@ -30,11 +33,13 @@ struct
 
     Vector2_f     yellowBallVelocity;
     Vector2_f     yellowBallPosition;
+
+    float         friction;
 } Game;
 
 void init()
 {
-    Game.V = VACA_Initialize("Two Ball", 400, 500, 2, 120);
+    Game.V = VACA_Initialize("Two Ball", 400, 500, 2, 60);
 
     Game.sprites[0] = VACA_CreateSprite(Game.V, "assets/twoball/board.png", 400, 500, 0, 0);
     Game.sprites[1] = VACA_CreateSprite(Game.V, "assets/twoball/yellow.png", 15, 15, 0, 0);
@@ -42,6 +47,8 @@ void init()
     Game.sprites[3] = VACA_CreateSprite(Game.V, "assets/twoball/cursor.png", 15, 15, 0, 0);
 
     Game.state = 0;
+
+    Game.friction = FRICTION * MASS * GRAVITY;
 }
 
 int main(int argc, char const *argv[])
@@ -111,8 +118,14 @@ int main(int argc, char const *argv[])
                                                     Game.sprites[1] -> rect.x + 7,
                                                     Game.sprites[1] -> rect.y + 7);
 
-                    Game.yellowBallVelocity.x = cosf(theta);
-                    Game.yellowBallVelocity.y = sinf(theta);
+                    float magnitude = SDL_max(VACA_DistanceBetween(Game.V -> mousePosition.x, 
+                                                                   Game.V -> mousePosition.y, 
+                                                                   Game.sprites[1] -> rect.x + 7,
+                                                                   Game.sprites[1] -> rect.y + 7), 
+                                              1.0f);
+
+                    Game.yellowBallVelocity.x = cosf(theta) * magnitude;
+                    Game.yellowBallVelocity.y = sinf(theta) * magnitude;
                     Game.yellowBallPosition.x = Game.sprites[1] -> rect.x;
                     Game.yellowBallPosition.y = Game.sprites[1] -> rect.y;
 
@@ -122,13 +135,31 @@ int main(int argc, char const *argv[])
                 }
                 break;
             case 2:
-                Game.yellowBallPosition.x += Game.yellowBallVelocity.x * (Game.V -> deltaTime) * 200;
-                Game.yellowBallPosition.y += Game.yellowBallVelocity.y * (Game.V -> deltaTime) * 200;
+                Game.yellowBallVelocity.x -= Game.friction;
+                Game.yellowBallVelocity.y -= Game.friction;
 
-                printf("dt%f\n", Game.V -> deltaTime);
+                Game.yellowBallPosition.x += Game.yellowBallVelocity.x * (Game.V -> deltaTime);
+                Game.yellowBallPosition.y += Game.yellowBallVelocity.y * (Game.V -> deltaTime);
+
+                if(Game.yellowBallPosition.x < 50 || Game.yellowBallPosition.x > 335)
+                {
+                    Game.yellowBallVelocity.x *= -1;
+                    Game.yellowBallPosition.x += Game.yellowBallVelocity.x * (Game.V -> deltaTime);
+                }
+                if(Game.yellowBallPosition.y < 50 || Game.yellowBallPosition.y > 435)
+                {
+                    Game.yellowBallVelocity.y *= -1;
+                    Game.yellowBallPosition.y += Game.yellowBallVelocity.y * (Game.V -> deltaTime);
+                }
+
+                // printf("dt%f\n", Game.V -> deltaTime);
 
                 VACA_MoveSprite(Game.sprites[1], Game.yellowBallPosition.x, Game.yellowBallPosition.y);
                 VACA_DrawSprite(Game.V, Game.sprites[1]);
+
+                VACA_MoveSprite(Game.sprites[3], Game.V -> mousePosition.x,
+                                                 Game.V -> mousePosition.y);
+                VACA_DrawSprite(Game.V, Game.sprites[3]);
         }
 
         VACA_EndFrame(Game.V);
