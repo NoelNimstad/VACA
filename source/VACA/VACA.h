@@ -12,6 +12,7 @@
 #include <SDL2/SDL_image.h>
 
 #include "VACA_types.h"
+#include "VACA_tiles.h"
 #include "VACA_constants.h"
 
 /**
