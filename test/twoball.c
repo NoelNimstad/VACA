@@ -151,6 +151,13 @@ int main(int argc, char const *argv[])
                 Game.rwBallPosition.x += Game.rwBallFriction.x * Game.V -> deltaTime * 1000;
                 Game.rwBallPosition.y += Game.rwBallFriction.y * Game.V -> deltaTime * 1000;
 
+                if(-MINIMUM_VELOCITY < Game.rwBallVelocity.x && MINIMUM_VELOCITY > Game.rwBallVelocity.x
+                && -MINIMUM_VELOCITY < Game.rwBallVelocity.y && MINIMUM_VELOCITY > Game.rwBallVelocity.y)
+                {
+                    Game.rwBallFriction = NullVector_f;
+                    Game.rwBallVelocity = NullVector_f;
+                }
+
                 if(-MINIMUM_VELOCITY < Game.yellowBallVelocity.x && MINIMUM_VELOCITY > Game.yellowBallVelocity.x
                 && -MINIMUM_VELOCITY < Game.yellowBallVelocity.y && MINIMUM_VELOCITY > Game.yellowBallVelocity.y)
                 {
@@ -160,16 +167,28 @@ int main(int argc, char const *argv[])
 
                 float distance = VACA_DistanceBetween(Game.yellowBallPosition.x, Game.yellowBallPosition.y,
                                                       Game.rwBallPosition.x, Game.rwBallPosition.y);
-                if(distance < RADIUS)
+                if(distance < RADIUS * 2)
                 {
                     float theta = VACA_AngleBetween(Game.yellowBallPosition.x, Game.yellowBallPosition.y,
                                                     Game.rwBallPosition.x, Game.rwBallPosition.y);
 
-                    printf("go go go %f\n", cosf(theta));
+                    Vector2_f direction = { cosf(theta), sinf(theta) };
+
+                    Game.rwBallPosition.x += direction.x * RADIUS * 2;
+                    Game.rwBallPosition.y += direction.y * RADIUS * 2;
+
+                    Game.rwBallVelocity.x = direction.x * 50;
+                    Game.rwBallVelocity.y = direction.y * 50;
+
+                    Game.rwBallFriction.x = -direction.x * FRICTION * GRAVITY * MASS;
+                    Game.rwBallFriction.y = -direction.y * FRICTION * GRAVITY * MASS;
                 }
 
                 Game.yellowBallPosition.x += Game.yellowBallVelocity.x * (Game.V -> deltaTime);
                 Game.yellowBallPosition.y += Game.yellowBallVelocity.y * (Game.V -> deltaTime);
+
+                Game.rwBallPosition.x += Game.rwBallVelocity.x * (Game.V -> deltaTime);
+                Game.rwBallPosition.y += Game.rwBallVelocity.y * (Game.V -> deltaTime);
 
                 if(Game.yellowBallPosition.x < 50 || Game.yellowBallPosition.x > 335)
                 {
@@ -184,15 +203,29 @@ int main(int argc, char const *argv[])
                     Game.yellowBallPosition.y += Game.yellowBallVelocity.y * (Game.V -> deltaTime);
                 }
 
+                if(Game.rwBallPosition.x < 50 || Game.rwBallPosition.x > 335)
+                {
+                    Game.rwBallVelocity.x *= -1;
+                    Game.rwBallFriction.x *= -1;
+                    Game.rwBallPosition.x += Game.rwBallVelocity.x * (Game.V -> deltaTime);
+                }
+                if(Game.rwBallPosition.y < 50 || Game.rwBallPosition.y > 435)
+                {
+                    Game.rwBallVelocity.y *= -1;
+                    Game.rwBallFriction.y *= -1;
+                    Game.rwBallPosition.y += Game.rwBallVelocity.y * (Game.V -> deltaTime);
+                }
+
                 // printf("dt%f\n", Game.V -> deltaTime);
 
                 VACA_MoveSprite(Game.sprites[1], Game.yellowBallPosition.x, Game.yellowBallPosition.y);
                 VACA_DrawSprite(Game.V, Game.sprites[1]);
 
+                VACA_MoveSprite(Game.sprites[4], Game.rwBallPosition.x, Game.rwBallPosition.y);
+                VACA_DrawSprite(Game.V, Game.sprites[4]);
+
                 VACA_MoveSprite(Game.sprites[3], Game.V -> mousePosition.x,
                                                  Game.V -> mousePosition.y);
-
-                VACA_DrawSprite(Game.V, Game.sprites[4]);
                 VACA_DrawSprite(Game.V, Game.sprites[3]);
 
                 VACA_DrawLine(Game.V, Game.yellowBallPosition.x + 7, Game.yellowBallPosition.y + 7,
