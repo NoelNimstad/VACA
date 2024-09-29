@@ -171,3 +171,15 @@ void VACA_DestroySpritesheet(Spritesheet *SS)
     SDL_DestroyTexture(SS -> _SDL_Texture);
     free(SS);
 }
+
+Tilemap *VACA_CreateTilemap(VACA *V, const char *txtPath, const char *imgPath)
+{
+    Tilemap *t = (Tilemap*)malloc(sizeof(Tilemap));
+
+    return t;
+}
+
+void     VACA_DestroyTilemap(Tilemap *t)
+{
+    free(t);
+}

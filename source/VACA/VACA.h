@@ -12,7 +12,6 @@
 #include <SDL2/SDL_image.h>
 
 #include "VACA_types.h"
-#include "VACA_tiles.h"
 #include "VACA_constants.h"
 
 /**
@@ -219,5 +218,8 @@ void         VACA_DestroySpritesheet(Spritesheet *SS);
  * @return A `float` of the distance between the points
  */
 #define      VACA_DistanceBetween(_x1, _y1, _x2, _y2) (sqrtf(((_x2) - (_x1)) * ((_x2) - (_x1)) + ((_y2) - (_y1)) * ((_y2) - (_y1))))
+
+Tilemap     *VACA_CreateTilemap(VACA *V, const char *txtPath, const char *imgPath);
+void         VACA_DestroyTilemap(Tilemap *t);
 
 #endif // VACA_h
