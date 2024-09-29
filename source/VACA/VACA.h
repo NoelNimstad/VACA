@@ -2,7 +2,7 @@
  * @file VACA.h
  * @date 2024/09/21
  * 
- * Contains definitions for VACA functions, as well as the code for macro-based functions
+ * @brief Contains definitions for VACA functions, as well as the code for macro-based functions
  */
 
 #ifndef VACA_h
@@ -12,6 +12,7 @@
 #include <SDL2/SDL_image.h>
 
 #include "VACA_types.h"
+#include "VACA_constants.h"
 
 /**
  * @brief Initialize the VACA SDL Wrapper struct.

@@ -2,11 +2,13 @@
  * @file VACA_Types.h
  * @date 2024/09/22
  *
- * This file defines the types and type conversion functions used in regards to the VACA SDL wrapper
+ * @brief This file defines the types and type conversion functions used in regards to the VACA SDL wrapper
  */
 
 #ifndef VACA_types_h
 #define VACA_types_h
+
+#include <SDL2/SDL.h>
 
 /**
  * @brief Convert an integer 2d vector into a floating point 2d vector
@@ -37,12 +39,26 @@
  */
 #define VACA_Vector2_f_isZero(_v2f)(((_v2f).x == 0) && ((_v2f).y == 0))
 /**
+ * @brief Initializes a Vector2_i
+ * 
+ * @param _X X position, type `int`
+ * @param _Y Y position, type `int`
+ */
+#define Create_Vector2_i(_X, _Y) ((Vector2_i){ (_X), (_Y) })
+/**
  * @brief An integer 2 dimensional vector 
  */
 typedef struct Vector2_i
 {
     int           x, y;
 } Vector2_i;
+/**
+ * @brief Initializes a Vector2_f
+ * 
+ * @param _X X position, type `float`
+ * @param _Y Y position, type `float`
+ */
+#define Create_Vector2_f(_X, _Y) ((Vector2_f){ (_X), (_Y) })
 /**
  * @brief A floating point 2 dimensional vector 
  */
