@@ -11,7 +11,8 @@
 
 #define SPEED 3
 
-#define MINIMUM_VELOCITY 1
+#define TARGET_FPS 120
+#define MINIMUM_VELOCITY (FRICTION * MASS * GRAVITY * (500 / TARGET_FPS))
 
 #include "VACA/VACA.h"
 
@@ -43,7 +44,7 @@ struct
 
 void init()
 {
-    Game.V = VACA_Initialize("Two Ball", 400, 500, 2, 60);
+    Game.V = VACA_Initialize("Two Ball", 400, 500, 2, TARGET_FPS);
 
     Game.sprites[0] = VACA_CreateSprite(Game.V, "assets/twoball/board.png", 400, 500, 0, 0);
     Game.sprites[1] = VACA_CreateSprite(Game.V, "assets/twoball/yellow.png", 15, 15, 0, 0);
@@ -105,9 +106,9 @@ int main(int argc, char const *argv[])
                 VACA_DrawSprite(Game.V, Game.sprites[1]);
 
                 VACA_DrawLine(Game.V, Game.sprites[1] -> rect.x + 7, 
-                                    Game.sprites[1] -> rect.y + 7,
-                                    Game.V -> mousePosition.x,
-                                    Game.V -> mousePosition.y);
+                                      Game.sprites[1] -> rect.y + 7,
+                                      Game.V -> mousePosition.x,
+                                      Game.V -> mousePosition.y);
 
                 VACA_MoveSprite(Game.sprites[3], Game.V -> mousePosition.x,
                                                  Game.V -> mousePosition.y);
@@ -142,8 +143,8 @@ int main(int argc, char const *argv[])
                 }
                 break;
             case 2:
-                Game.yellowBallVelocity.x += Game.friction.x;
-                Game.yellowBallVelocity.y += Game.friction.y;
+                Game.yellowBallVelocity.x += Game.friction.x * Game.V -> deltaTime * 1000;
+                Game.yellowBallVelocity.y += Game.friction.y * Game.V -> deltaTime * 1000;
 
                 if(-MINIMUM_VELOCITY < Game.yellowBallVelocity.x && MINIMUM_VELOCITY > Game.yellowBallVelocity.x
                 && -MINIMUM_VELOCITY < Game.yellowBallVelocity.y && MINIMUM_VELOCITY > Game.yellowBallVelocity.y)
@@ -181,8 +182,8 @@ int main(int argc, char const *argv[])
                 VACA_DrawSprite(Game.V, Game.sprites[3]);
         }
 
-        VACA_EndFrame(Game.V);
         VACA_RenderPresent(Game.V);
+        VACA_EndFrame(Game.V);
     }
 
     VACA_DestroySprite(Game.sprites[0]);

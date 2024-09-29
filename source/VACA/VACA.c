@@ -109,11 +109,11 @@ void VACA_StartFrame(VACA *V)
 void VACA_EndFrame(VACA *V)
 {
     Uint64 currentCounter = SDL_GetPerformanceCounter();
-    V -> _frameDelay = (double)(currentCounter - V -> _lastCounter) / V -> _performanceFrequency;
+    double frameTime = (double)(currentCounter - V -> _lastCounter) / V -> _performanceFrequency;
 
-    if(V -> deltaTime < V -> _frameDelay)
+    if(frameTime < V -> _frameDelay)
     {
-        SDL_Delay((Uint32)((V -> _frameDelay - V -> deltaTime))); // Delay by the difference between the delta time and elapsed time
+        SDL_Delay((Uint32)((V -> _frameDelay - frameTime))); // Delay by the difference between the delta time and elapsed time
     }
 }
 
