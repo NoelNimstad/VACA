@@ -3,3 +3,4 @@
 build/
 libraries/
 include/
+test.c
