@@ -8,7 +8,7 @@ CC = gcc
 INCLUDE = -Iinclude -Isource
 LIBS = -Llibraries
 
-FROM = source/VACA/*.c test/test.c
+FROM = source/VACA/*.c test/tilemap.c
 TO = build
 
 ASSETS = test/assets
