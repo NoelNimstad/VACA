@@ -1,6 +1,5 @@
 /*
     TODO:
-    - More balls
     - Ball collisions
     - Winning
 */

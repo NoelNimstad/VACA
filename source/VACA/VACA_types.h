@@ -112,7 +112,7 @@ typedef struct Spritesheet
 } Spritesheet;
 
 /**
- * @brief A tilemap
+ *  @brief A tilemap
  */
 typedef struct Tilemap
 {
