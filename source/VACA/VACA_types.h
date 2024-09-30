@@ -111,10 +111,13 @@ typedef struct Spritesheet
     SDL_Texture  *_SDL_Texture;
 } Spritesheet;
 
+/**
+ * @brief A tilemap
+ */
 typedef struct Tilemap
 {
-    Spritesheet  *spritesheet;
-    int           map;
+    Spritesheet  *_spritesheet;
+    int           _map;
 } Tilemap;
 
 #endif // VACA_types_h
