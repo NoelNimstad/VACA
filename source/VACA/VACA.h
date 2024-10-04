@@ -13,6 +13,7 @@
 
 #include "VACA_types.h"
 #include "VACA_constants.h"
+#include "VACA_utils.h"
 
 /**
  * @brief Initialize the VACA SDL Wrapper struct.

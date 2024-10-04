@@ -9,9 +9,9 @@ INCLUDE = -Iinclude -Isource
 LIBS = -Llibraries
 
 FROM = source/VACA/*.c test/tilemap.c
-TO = build
+TO = build/VACA.app/Contents
 
-ASSETS = test/assets
+ASSETS = test/Resources
 
 O = -O2
 
@@ -19,7 +19,8 @@ all: comp run
 
 comp:
 	cp -r $(ASSETS) $(TO)/
-	$(CC) $(FROM) -o $(TO)/$(NAME)$(RELEASE)$(VERSION) $(INCLUDE) $(LIBS) $(LIBRARIES) $(O)
+	$(CC) $(FROM) -o $(TO)/MacOS/$(NAME)$(RELEASE)$(VERSION) $(INCLUDE) $(LIBS) $(LIBRARIES) $(O)
+	codesign --force --deep --sign - build/VACA.app
 
 run:
-	$(TO)/$(NAME)$(RELEASE)$(VERSION)
+	cd $(TO) ; ./MacOS/$(NAME)$(RELEASE)$(VERSION)

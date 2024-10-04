@@ -1,48 +1,37 @@
-/*
-    TODO:
-    - Ball collisions
-    - Winning
-*/
-
 #include "VACA/VACA.h"
-
-struct
-{
-    VACA *V;
-} Game;
-
-void init()
-{
-    Game.V = VACA_Initialize("Two Ball", 400, 300, 2, 10);
-}
 
 int main(int argc, char const *argv[])
 {
-    init();
+    VACA *V = VACA_Initialize("Tilemap", 320, 240, 1, 60);
 
-    VACA_SetRenderDrawColor(Game.V, 0, 0, 0);
-    Tilemap *tilemap = VACA_CreateTilemap(Game.V, "assets/tilemaps/map.txt", "assets/tilemaps/map.png");
+    char *contents = ReadFile("Resources/map.txt");
+    printf("%s\n", contents);
+
+    VACA_SetRenderDrawColor(V, 0, 0, 0);
+    Tilemap *tilemap = VACA_CreateTilemap(V, "assets/tilemaps/map.txt", "assets/tilemaps/map.png");
 
     unsigned char running = 1;
     while(running)
     {
-        VACA_StartFrame(Game.V);
+        VACA_StartFrame(V);
 
-        while(VACA_PollEvent(Game.V))
+        while(VACA_PollEvent(V))
         {
-            if(Game.V -> event.type == SDL_QUIT)
+            if(V -> event.type == SDL_QUIT)
             {
                 running = 0;
             }
         }
 
-        VACA_ClearScreen2(Game.V);
-        VACA_RenderPresent(Game.V);
-        VACA_EndFrame(Game.V);
+        VACA_ClearScreen2(V);
+        VACA_RenderPresent(V);
+        VACA_EndFrame(V);
     }
 
     VACA_DestroyTilemap(tilemap);
-    VACA_Destroy(Game.V);
+    VACA_Destroy(V);
+
+    free(contents);
 
     return 0;
 }
