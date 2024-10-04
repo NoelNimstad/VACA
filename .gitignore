@@ -5,3 +5,4 @@ libraries/
 include/
 test.c
 ignore
+makefile
