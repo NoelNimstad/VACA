@@ -172,14 +172,23 @@ void VACA_DestroySpritesheet(Spritesheet *SS)
     free(SS);
 }
 
-Tilemap *VACA_CreateTilemap(VACA *V, const char *txtPath, const char *imgPath)
+Tilemap *VACA_CreateTilemap(VACA *V, const char *tileInformation, Spritesheet *spritesheet)
 {
     Tilemap *t = (Tilemap*)malloc(sizeof(Tilemap));
+    t -> _spritesheet = spritesheet;
+
+    int tileTypes = CountChars(tileInformation, '_');
+    while(--tileTypes > 0)
+    {
+        
+    }
+    printf("%d\n", CountChars(tileInformation, '_'));
 
     return t;
 }
 
-void     VACA_DestroyTilemap(Tilemap *t)
+void VACA_DestroyTilemap(Tilemap *t)
 {
+    VACA_DestroySpritesheet(t -> _spritesheet);
     free(t);
 }

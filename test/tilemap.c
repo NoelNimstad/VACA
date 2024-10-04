@@ -3,12 +3,12 @@
 int main(int argc, char const *argv[])
 {
     VACA *V = VACA_Initialize("Tilemap", 320, 240, 1, 60);
-
-    char *contents = ReadFile("Resources/map.txt");
-    printf("%s\n", contents);
-
     VACA_SetRenderDrawColor(V, 0, 0, 0);
-    Tilemap *tilemap = VACA_CreateTilemap(V, "assets/tilemaps/map.txt", "assets/tilemaps/map.png");
+
+    char *contents = ReadFile("Resources/map.txt"); printf("%s\n", contents);
+    Spritesheet *spritesheet = VACA_CreateSpritesheet(V, "Resources/map.png", 30, 30, 10, 10, 0, 0);
+
+    Tilemap *tilemap = VACA_CreateTilemap(V, contents, spritesheet);
 
     unsigned char running = 1;
     while(running)

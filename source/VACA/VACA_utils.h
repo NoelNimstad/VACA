@@ -12,4 +12,18 @@
  */
 char *ReadFile(const char *path);
 
+/**
+ * @brief Counts the occurnces of `_c` in string `_s`
+ * 
+ * @param _s String to count from, of type `char *`
+ * @param _c Char to count, of type `char`
+ */
+#define CountChars(_s, _c) ({ int CHAR_COUNTER = 0;                 \
+                              for (int i = 0; (_s)[i] != '\0'; i++) \
+                              {                                     \
+                                  if ((_s)[i] == (_c))              \
+                                  CHAR_COUNTER++;                   \
+                              }                                     \
+                              CHAR_COUNTER; })
+
 #endif // VACA_utils_h
