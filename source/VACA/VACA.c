@@ -26,7 +26,7 @@ VACA *VACA_Initialize(const char *title, int width, int height, int scale, int F
     }
 
     // Allocate memory for an instance of VACA
-    VACA * V = (VACA*)malloc(sizeof(VACA));
+    VACA *V = (VACA*)malloc(sizeof(VACA));
 
     V -> _width = width;   // Asign variables
     V -> _height = height; // 
