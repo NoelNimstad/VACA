@@ -5,6 +5,9 @@ VACA by Noel Nimstad is marked with CC0 1.0 Universal
 - Tilemaps
 - Save file utilities
 
+## ⚠️ Warning
+Only compatible with GCC compilers for now because of compiler macros!
+
 ## Example program
 ```c
 #include "VACA/VACA.h"
