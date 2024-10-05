@@ -28,7 +28,7 @@ char *ReadFile(const char *path)
     return contents;
 }
 
-char **SplitString(const char *string, char token)
+char **SplitString(const char *string, char token, int *listLength)
 {
     int parts = CountChars(string, token);
     char **stringList = (char**)malloc(sizeof(char*) * parts);
@@ -67,6 +67,16 @@ char **SplitString(const char *string, char token)
     }
 
     stringList[index] = strdup(start);
+    *listLength = index + 1;
 
     return stringList;
+}
+void DestroyStringList(char **stringList)
+{
+    int length = sizeof(stringList) / sizeof(char*);
+    for(int i = 0; i < length; i++)
+    {
+        free(stringList[i]);
+    }
+    free(stringList);
 }

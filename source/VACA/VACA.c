@@ -180,8 +180,10 @@ Tilemap *VACA_CreateTilemap(VACA *V, const char *tileInformation, Spritesheet *s
     int tileTypes = CountChars(tileInformation, '_');
     printf("%d\n", CountChars(tileInformation, '_'));
 
-    char **stringLength = SplitString(tileInformation, '_');
-    printf("%lu\n", sizeof(stringLength) / sizeof(char*));
+    int length;
+    char **splittedString = SplitString(tileInformation, '\n', &length);
+    printf("%d\n", length);
+    DestroyStringList(splittedString);
 
     return t;
 }

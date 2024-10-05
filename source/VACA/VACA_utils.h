@@ -32,8 +32,15 @@ char *ReadFile(const char *path);
  * 
  * @param string Target string
  * @param token Target delimiter
+ * @param listLength Pointer to where to store the length of the list
  * @return An array of substrings, of type `char**`
  */
-char **SplitString(const char *string, char token);
+char **SplitString(const char *string, char token, int *listLength);
+/**
+ * @brief Destroys string list allocated with `malloc`
+ * 
+ * @param stingList String list to destroy
+ */
+void DestroyStringList(char **stringList);
 
 #endif // VACA_utils_h
