@@ -1,4 +1,4 @@
-# The VACA Game Framework SDL2 Wrapper
+# <img src="https://github.com/user-attachments/assets/cdc63a45-5760-468c-baec-12bb74a55342" width=25> The VACA Game Framework SDL2 Wrapper
 VACA by Noel Nimstad is marked with CC0 1.0 Universal 
 
 ## Planned features
