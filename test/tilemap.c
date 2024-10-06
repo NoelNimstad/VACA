@@ -8,7 +8,7 @@ int main(int argc, char const *argv[])
     char *contents = ReadFile("Resources/map.txt");
     Spritesheet *spritesheet = VACA_CreateSpritesheet(V, "Resources/map.png", 30, 30, 10, 10, 0, 0);
 
-    Tilemap *tilemap = VACA_CreateTilemap(V, contents, spritesheet);
+    Tilemap *tilemap = VACA_CreateTilemap(contents, spritesheet);
 
     unsigned char running = 1;
     while(running)

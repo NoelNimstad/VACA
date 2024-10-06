@@ -178,7 +178,7 @@ void VACA_DestroySpritesheet(Spritesheet *SS)
     free(SS);
 }
 
-Tilemap *VACA_CreateTilemap(VACA *V, const char *tileInformation, Spritesheet *spritesheet)
+Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spritesheet)
 {
     if(tileInformation == NULL || spritesheet == NULL) 
     {
