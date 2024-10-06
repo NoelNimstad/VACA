@@ -5,7 +5,7 @@ int main(int argc, char const *argv[])
     VACA *V = VACA_Initialize("Tilemap", 320, 240, 1, 60);
     VACA_SetRenderDrawColor(V, 0, 0, 0);
 
-    char *contents = ReadFile("Resources/map.txt"); printf("%s\n", contents);
+    char *contents = ReadFile("Resources/map.txt");
     Spritesheet *spritesheet = VACA_CreateSpritesheet(V, "Resources/map.png", 30, 30, 10, 10, 0, 0);
 
     Tilemap *tilemap = VACA_CreateTilemap(V, contents, spritesheet);

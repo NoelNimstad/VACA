@@ -50,7 +50,7 @@
  */
 typedef struct Vector2_i
 {
-    int           x, y;
+    int              x, y;
 } Vector2_i;
 /**
  * @brief Initializes a Vector2_f
@@ -64,7 +64,7 @@ typedef struct Vector2_i
  */
 typedef struct Vector2_f
 {
-    float         x, y;
+    float            x, y;
 } Vector2_f;
 
 /**
@@ -72,23 +72,23 @@ typedef struct Vector2_f
  */
 typedef struct VACA
 {
-    SDL_Event     event;
-    double        deltaTime;
+    SDL_Event        event;
+    double           deltaTime;
 
-    unsigned char mouseState;
-    Vector2_i     mousePosition;
+    unsigned char    mouseState;
+    Vector2_i        mousePosition;
 
-    int           _width;
-    int           _height;
-    int           _scale;
+    int              _width;
+    int              _height;
+    int              _scale;
 
-    float         _frameDelay;
-    Uint64        _currentCounter;
-    Uint64        _lastCounter;
-    double        _performanceFrequency;
+    float            _frameDelay;
+    Uint64           _currentCounter;
+    Uint64           _lastCounter;
+    double           _performanceFrequency;
 
-    SDL_Window   *_SDL_Window;
-    SDL_Renderer *_SDL_Renderer;
+    SDL_Window      *_SDL_Window;
+    SDL_Renderer    *_SDL_Renderer;
 } VACA;
 
 /**
@@ -96,28 +96,38 @@ typedef struct VACA
  */
 typedef struct Sprite
 {
-    SDL_Rect      rect;
+    SDL_Rect         rect;
     
-    SDL_Texture  *_SDL_Texture;
+    SDL_Texture     *_SDL_Texture;
 } Sprite;
 /**
  * @brief Multiple sprites
  */
 typedef struct Spritesheet
 {
-    SDL_Rect      rect;
+    SDL_Rect         rect;
 
-    SDL_Rect      _sourceRect; 
-    SDL_Texture  *_SDL_Texture;
+    SDL_Rect         _sourceRect; 
+    SDL_Texture     *_SDL_Texture;
 } Spritesheet;
 
+/**
+ * @brief Internal struct for encapsulating an array of tiles of tile type `type` in a `Tilemap`
+ */
+typedef struct _TileCollection
+{
+    int              type;
+    Vector2_i       *positions;
+} _TileCollection;
 /**
  *  @brief A tilemap
  */
 typedef struct Tilemap
 {
-    Spritesheet  *_spritesheet;
-    int           _map;
+    Spritesheet     *_spritesheet;
+    int              _map;
+    _TileCollection *_tileCollections;
+    int              _numberOfTileCollections;
 } Tilemap;
 
 #endif // VACA_types_h
