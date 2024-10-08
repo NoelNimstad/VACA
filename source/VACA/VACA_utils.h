@@ -43,4 +43,13 @@ char **SplitString(const char *string, char token, int *listLength);
  */
 void DestroyStringList(char **stringList);
 
+/**
+ * @brief Macro to seed the random function 
+ */
+#define seedRandom() srand(time(NULL))
+/**
+ * @brief Generates a random integer between `_l` and `_u`
+ */
+#define randomBetween(_l, _u) ((_l) + rand() % ((_u) - (_l) + 1))
+
 #endif // VACA_utils_h

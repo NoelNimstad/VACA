@@ -74,6 +74,15 @@ VACA *VACA_Initialize(const char *title, int width, int height, int scale, int F
     V -> _lastCounter = SDL_GetPerformanceCounter();          // Get current time
     V -> _performanceFrequency = SDL_GetPerformanceFrequency(); // Get (the constant) performance frequency
 
+    if(SDL_GetDesktopDisplayMode(0, &V -> _SDL_DisplayMode) != 0)
+    {
+        SDL_Log("Error getting display mode:\n%s\n", SDL_GetError());
+    } else 
+    {
+        V -> screenWidth = V -> _SDL_DisplayMode.w;
+        V -> screenHeight = V -> _SDL_DisplayMode.h;
+    }
+
     return V;
 }
 

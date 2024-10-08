@@ -223,4 +223,8 @@ void         VACA_DestroySpritesheet(Spritesheet *SS);
 Tilemap     *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spritesheet);
 void         VACA_DestroyTilemap(Tilemap *t);
 
+#define      VACA_ResizeWindow(_V, _w, _h) SDL_SetWindowSize((_V) -> _SDL_Window, (_w), (_h))
+#define      VACA_MoveWindow(_V, _x, _y) SDL_SetWindowPosition((_V) -> _SDL_Window, (_x), (_y))
+#define      VACA_RetitleWindow(_V, _s) SDL_SetWindowTitle((_V) -> _SDL_Window, (_s))
+
 #endif // VACA_h

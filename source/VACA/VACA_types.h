@@ -75,20 +75,24 @@ typedef struct VACA
     SDL_Event        event;
     double           deltaTime;
 
-    unsigned char    mouseState;
+    int8_t           mouseState;
     Vector2_i        mousePosition;
+
+    int16_t          screenWidth;
+    int16_t          screenHeight;
 
     int              _width;
     int              _height;
     int              _scale;
 
     float            _frameDelay;
-    Uint64           _currentCounter;
-    Uint64           _lastCounter;
+    uint64_t         _currentCounter;
+    uint64_t         _lastCounter;
     double           _performanceFrequency;
 
     SDL_Window      *_SDL_Window;
     SDL_Renderer    *_SDL_Renderer;
+    SDL_DisplayMode  _SDL_DisplayMode;
 } VACA;
 
 /**
