@@ -12,15 +12,15 @@
 int main(int argc, char const *argv[])
 {
     seedRandom();
-    int8_t state = 1;
-    int8_t notwin = 1;
-    int16_t clock = randomBetween(500, 100);
+    u8 state = 1;
+    u8 notwin = 1;
+    u16 clock = randomBetween(500, 100);
     char title[10] = "0";
     float score = 0;
     float timer;
     float totalTime = 0;
 
-    VACA *V = VACA_Initialize("0", WIDTH, HEIGHT, 1, 30);
+    VACA *V = VACA_Initialize("0", WIDTH, HEIGHT, 1, 120);
 
     Vector2_f position = { 0, 0 };
     Vector2_f velocity = { SPEED, SPEED };

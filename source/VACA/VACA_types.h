@@ -10,6 +10,16 @@
 
 #include <SDL2/SDL.h>
 
+// Integer types
+#define i8  signed char
+#define u8  unsigned char
+#define i16 signed short int
+#define u16 unsigned short int
+#define i32 signed long int
+#define u32 unsigned long int
+#define i64 signed long long int
+#define u64 unsigned long long int
+
 /**
  * @brief Convert an integer 2d vector into a floating point 2d vector
  * @param _v2f Input integer 2d vector
@@ -75,19 +85,19 @@ typedef struct VACA
     SDL_Event        event;
     double           deltaTime;
 
-    int8_t           mouseState;
+    u8               mouseState;
     Vector2_i        mousePosition;
 
-    int16_t          screenWidth;
-    int16_t          screenHeight;
+    u16              screenWidth;
+    u16              screenHeight;
 
-    uint16_t         _width;
-    uint16_t         _height;
-    uint8_t          _scale;
+    u16              _width;
+    u16              _height;
+    u8               _scale;
 
     float            _frameDelay;
-    uint64_t         _currentCounter;
-    uint64_t         _lastCounter;
+    u64              _currentCounter;
+    u64              _lastCounter;
     double           _performanceFrequency;
 
     SDL_Window      *_SDL_Window;
