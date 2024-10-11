@@ -28,7 +28,7 @@ int main(int argc, char const *argv[])
     VACA_MoveWindow(V, position.x, position.y);
     SWAP_STATE();
 
-    int8_t running = 1;
+    u8 running = 1;
     while(running)
     {
         VACA_StartFrame(V);
