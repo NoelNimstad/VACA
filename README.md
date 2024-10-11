@@ -28,13 +28,13 @@ int main(int argc, char *argv[])
 
         while(VACA_PollEvent(V)) // macro for SDL_PollEvent(V -> event)
         {
-            if(V -> event.type == SDL_QUIT)
+            if(V->event.type == SDL_QUIT)
             {
                 running = 0;
             }
         }
 
-        frame += V -> deltaTime * SPEED;
+        frame += V->deltaTime * SPEED;
         if(frame > 255) frame = 0;
         VACA_ClearScreen(V, floor(frame), floor(frame), 0); // Clear the screen with RGB color floor(frame), floor(frame), 0
 
