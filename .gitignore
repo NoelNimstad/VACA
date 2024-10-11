@@ -6,3 +6,4 @@ include/
 test.c
 ignore
 makefile
+old

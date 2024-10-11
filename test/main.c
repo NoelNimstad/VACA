@@ -1,0 +1,33 @@
+#include "VACA/VACA.h"
+
+int main(int argc, char *argv[])
+{
+    VACA *vaca = VACA_Initialize("tilemap", 320, 240, 2, 60);
+    Sprite *sprite = VACA_CreateSprite(vaca, "Resources/pixel.png", 1, 1, 0, 0);
+
+    u8 running = 1;
+    while(running)
+    {
+        VACA_StartFrame(vaca);
+
+        while(VACA_PollEvent(vaca))
+        {
+            if(vaca -> event.type == SDL_QUIT)
+            {
+                running = 0;
+            }
+        }
+
+        VACA_ClearScreen(vaca, 0, 0, 0);
+
+        VACA_SetRenderDrawColor(vaca, 255, 0, 0);
+        VACA_DrawLine(vaca, 0, 0, 100, 100);
+
+        VACA_RenderPresent(vaca);
+
+        VACA_EndFrame(vaca);
+    }
+
+    VACA_Destroy(vaca);
+    return 0;
+}

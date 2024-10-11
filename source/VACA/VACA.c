@@ -8,16 +8,19 @@
 
 #include "VACA.h"
 
-VACA *VACA_Initialize(const char *title, int width, int height, int scale, int FPS)
+VACA *VACA_Initialize(const char *title, u16 width, u16 height, u8 scale, u16 FPS)
 {
-    // Attempt to initialize SDL
+    if(width == 0 || height == 0 || scale == 0 || FPS == 0)
+    {
+        fprintf(stderr, "VACA_Initialize integer arguments may not be equal to 0\n");
+        return NULL;
+    }
+
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         fprintf(stderr, "Failed to initialize SDL:\n%s\n", SDL_GetError());
         return NULL;
     }
-    
-    // Attempt to initialize SDL_image
     if(IMG_Init(IMG_INIT_PNG) == 0)
     {
         fprintf(stderr, "Failed to initialize SDL_image:\n%s\n", IMG_GetError());
@@ -25,25 +28,22 @@ VACA *VACA_Initialize(const char *title, int width, int height, int scale, int F
         return NULL;
     }
 
-    // Allocate memory for an instance of VACA
     VACA *V = (VACA*)malloc(sizeof(VACA));
 
-    V -> _width = width;   // Asign variables
-    V -> _height = height; // 
-    V -> _scale = scale;   //
+    V -> _width = width * scale;   
+    V -> _height = height * scale; 
+    V -> _scale = scale;   
 
     // Calculate the frame delay (1000 ms / frames per second)
     V -> _frameDelay = 1000 / FPS;
 
-    // Attempt to create a SDL_Window
     V -> _SDL_Window = SDL_CreateWindow(title,
-                                        SDL_WINDOWPOS_CENTERED, // Center window
-                                        SDL_WINDOWPOS_CENTERED, //
+                                        SDL_WINDOWPOS_CENTERED,
+                                        SDL_WINDOWPOS_CENTERED, 
                                         V -> _width,
                                         V -> _height,
-                                        0);                     // No special initialization 
+                                        0);                     
 
-    // Make sure the window was created correctly
     if(V -> _SDL_Window == NULL)
     {
         fprintf(stderr, "Failed to create a SDL Window:\n%s\n", SDL_GetError());
@@ -54,12 +54,10 @@ VACA *VACA_Initialize(const char *title, int width, int height, int scale, int F
         return NULL;
     }
     
-    // Attempt to create a SDL_Renderer
     V -> _SDL_Renderer = SDL_CreateRenderer(V -> _SDL_Window, 
                                             0, 
                                             SDL_RENDERER_ACCELERATED);
 
-    // Make sure the renderer was created correctly
     if(V -> _SDL_Renderer == NULL) 
     {
         fprintf(stderr, "Failed to create a SDL Renderer:\n%s\n", SDL_GetError());
@@ -70,6 +68,8 @@ VACA *VACA_Initialize(const char *title, int width, int height, int scale, int F
         
         return NULL;
     }
+
+    SDL_RenderSetLogicalSize(V -> _SDL_Renderer, width, height);
 
     V -> _lastCounter = SDL_GetPerformanceCounter();          // Get current time
     V -> _performanceFrequency = SDL_GetPerformanceFrequency(); // Get (the constant) performance frequency

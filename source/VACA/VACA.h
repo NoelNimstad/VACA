@@ -26,7 +26,7 @@
  * 
  * @return A pointer to a VACA struct, `VACA*` 
  */
-VACA        *VACA_Initialize(const char *title, int width, int height, int scale, int FPS);
+VACA        *VACA_Initialize(const char *title, u16 width, u16 height, u8 scale, u16 FPS);
 /**
  * @brief Destroys VACA SDL Wrapper struct as well as members of it that need destroying.
  * 
