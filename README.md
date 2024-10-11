@@ -16,7 +16,7 @@ Only compatible with GCC compilers for now because of compiler macros!
 
 #define SPEED 300
 
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
     VACA *V = VACA_Initialize("Test Window", 320, 240, 1, 60); // Initializes a window at 320x240, scale 1, 60fps target frame rate
 
