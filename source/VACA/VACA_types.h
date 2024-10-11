@@ -81,9 +81,9 @@ typedef struct VACA
     int16_t          screenWidth;
     int16_t          screenHeight;
 
-    int              _width;
-    int              _height;
-    int              _scale;
+    uint16_t         _width;
+    uint16_t         _height;
+    uint8_t          _scale;
 
     float            _frameDelay;
     uint64_t         _currentCounter;
