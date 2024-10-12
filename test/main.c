@@ -3,7 +3,6 @@
 int main(int argc, char *argv[])
 {
     VACA *vaca = VACA_Initialize("tilemap", 320, 240, 2, 60);
-    Sprite *sprite = VACA_CreateSprite(vaca, "Resources/pixel.png", 1, 1, 0, 0);
 
     u8 running = 1;
     while(running)
@@ -28,7 +27,6 @@ int main(int argc, char *argv[])
         VACA_EndFrame(vaca);
     }
 
-    VACA_DestroySprite(sprite);
     VACA_Destroy(vaca);
     return 0;
 }
