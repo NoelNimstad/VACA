@@ -51,7 +51,7 @@
  */
 typedef struct Vector2_i
 {
-    int              x, y;
+    i16              x, y;
 } Vector2_i;
 /**
  * @brief Initializes a Vector2_f
@@ -121,7 +121,7 @@ typedef struct Spritesheet
  */
 typedef struct _TileCollection
 {
-    int              type;
+    u16              type;
     Vector2_i       *positions;
 } _TileCollection;
 /**
@@ -132,7 +132,7 @@ typedef struct Tilemap
     Spritesheet     *_spritesheet;
     int              _map;
     _TileCollection *_tileCollections;
-    int              _numberOfTileCollections;
+    u16              _numberOfTileCollections;
 } Tilemap;
 
 #endif // VACA_types_h
