@@ -2,7 +2,7 @@
 
 int main(int argc, char *argv[])
 {
-    VACA *vaca = VACA_Initialize("tilemap", 320, 240, 2, 60);
+    VACA *vaca = VACA_Initialize("test", 320, 240, 0, 60);
 
     u8 running = 1;
     while(running)
