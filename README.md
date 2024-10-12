@@ -5,6 +5,7 @@ VACA by Noel Nimstad is marked with CC0 1.0 Universal
 - Tilemaps
 - Keyboard managing
 - Rect drawing
+- Text rendering
 
 ## ⚠️ Warning
 Only compatible with GCC compilers for now because of compiler macros!
