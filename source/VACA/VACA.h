@@ -20,7 +20,7 @@
  * @param title Window title
  * @param width Window width
  * @param height Window height
- * @param scale Window scale
+ * @param scale Window scale, 0 for fullscreen
  * @param FPS Target frame rate
  * 
  * @return A pointer to a VACA struct, `VACA*` 

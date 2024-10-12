@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
         VACA_ClearScreen(vaca, 0, 0, 0);
 
         VACA_SetRenderDrawColor(vaca, 255, 0, 0);
-        VACA_DrawLine(vaca, 0, 0, 100, 100);
+        VACA_DrawLine(vaca, 0, 0, 320, 240);
 
         VACA_RenderPresent(vaca);
 

@@ -10,7 +10,7 @@
 
 VACA *VACA_Initialize(const char *title, u16 width, u16 height, u8 scale, u16 FPS)
 {
-    if(width == 0 || height == 0 || scale == 0 || FPS == 0)
+    if(width == 0 || height == 0 || FPS == 0)
     {
         fprintf(stderr, "VACA_Initialize integer arguments may not be equal to 0\n");
         return NULL;
@@ -30,9 +30,10 @@ VACA *VACA_Initialize(const char *title, u16 width, u16 height, u8 scale, u16 FP
 
     VACA *V = (VACA*)malloc(sizeof(VACA));
 
-    V -> _width = width * scale;   
-    V -> _height = height * scale; 
-    V -> _scale = scale;   
+    V -> _width = width;   
+    V -> _height = height; 
+    V -> _fullscreen = (scale == 0) ? 1 : 0;
+    V -> _scale = (scale == 0) ? 1 : scale;   
 
     // Calculate the frame delay (1000 ms / frames per second)
     V -> _frameDelay = 1000 / FPS;
@@ -40,9 +41,9 @@ VACA *VACA_Initialize(const char *title, u16 width, u16 height, u8 scale, u16 FP
     V -> _SDL_Window = SDL_CreateWindow(title,
                                         SDL_WINDOWPOS_CENTERED,
                                         SDL_WINDOWPOS_CENTERED, 
-                                        V -> _width,
-                                        V -> _height,
-                                        0);                     
+                                        V -> _width * scale,
+                                        V -> _height * scale,
+                                        ((V -> _fullscreen) ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0));                     
 
     if(V -> _SDL_Window == NULL)
     {
@@ -69,7 +70,7 @@ VACA *VACA_Initialize(const char *title, u16 width, u16 height, u8 scale, u16 FP
         return NULL;
     }
 
-    SDL_RenderSetLogicalSize(V -> _SDL_Renderer, width, height);
+    SDL_RenderSetLogicalSize(V -> _SDL_Renderer, V -> _width, V -> _height);
 
     V -> _lastCounter = SDL_GetPerformanceCounter();          // Get current time
     V -> _performanceFrequency = SDL_GetPerformanceFrequency(); // Get (the constant) performance frequency

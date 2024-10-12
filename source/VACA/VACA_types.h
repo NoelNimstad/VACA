@@ -85,6 +85,7 @@ typedef struct VACA
     u16              _width;
     u16              _height;
     u8               _scale;
+    u8               _fullscreen;
 
     float            _frameDelay;
     u64              _currentCounter;
