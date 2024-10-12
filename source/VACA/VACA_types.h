@@ -11,14 +11,14 @@
 #include <SDL2/SDL.h>
 
 // Integer types
-#define i8  signed char
-#define u8  unsigned char
-#define i16 signed short int
-#define u16 unsigned short int
-#define i32 signed long int
-#define u32 unsigned long int
-#define i64 signed long long int
-#define u64 unsigned long long int
+typedef signed char            i8;
+typedef unsigned char          u8;
+typedef signed short int       i16;
+typedef unsigned short int     u16;
+typedef signed long int        i32;
+typedef unsigned long int      u32;
+typedef signed long long int   i64;
+typedef unsigned long long int u64;
 
 /**
  * @brief Convert an integer 2d vector into a floating point 2d vector

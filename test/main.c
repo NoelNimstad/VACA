@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
         VACA_EndFrame(vaca);
     }
 
+    VACA_DestroySprite(sprite);
     VACA_Destroy(vaca);
     return 0;
 }
