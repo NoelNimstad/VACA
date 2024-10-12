@@ -18,13 +18,16 @@ Only compatible with GCC compilers for now because of compiler macros!
 
 int main(int argc, char *argv[])
 {
-    VACA *V = VACA_Initialize("Test Window", 320, 240, 1, 60); // Initializes a window at 320x240, scale 1, 60fps target frame rate
+    // Initialize a window at 320x240, scale 2, 60fps target frame rate
+    VACA *V = VACA_Initialize("Test Window", 320, 240, 2, 60);
 
-    unsigned char running = 1;
+    u8 running = 1; // typedef unsigned char u8;
     float frame = 0;
     while(running)
     {
-        VACA_StartFrame(V); // Start the framerate maintaining function
+        // To maintain framerate, call the VACA_StartFrame() method in the begining of each frame
+        // And then call the VACA_EndFrame() method at the end of each frame.
+        VACA_StartFrame(V);
 
         while(VACA_PollEvent(V)) // macro for SDL_PollEvent(V -> event)
         {
@@ -39,7 +42,7 @@ int main(int argc, char *argv[])
         VACA_ClearScreen(V, floor(frame), floor(frame), 0); // Clear the screen with RGB color floor(frame), floor(frame), 0
 
         VACA_RenderPresent(V); // Present what has been drawn
-        VACA_EndFrame(V); // End the framerate maintaining function
+        VACA_EndFrame(V); // VACA_EndFrame()
     }
 
     VACA_Destroy(V); // De-initialize VACA
