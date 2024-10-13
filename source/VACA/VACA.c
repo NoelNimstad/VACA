@@ -80,8 +80,8 @@ VACA *VACA_Initialize(const char *title, u16 width, u16 height, u8 scale, u16 FP
         SDL_Log("Error getting display mode:\n%s\n", SDL_GetError());
     } else 
     {
-        V -> screenWidth = V -> _SDL_DisplayMode.w;
-        V -> screenHeight = V -> _SDL_DisplayMode.h;
+        V->screenWidth =V->_SDL_DisplayMode.w;
+        V->screenHeight =V->_SDL_DisplayMode.h;
     }
 
     return V;
@@ -91,8 +91,8 @@ void VACA_Destroy(VACA *V)
 {
     if(V == NULL) return;
 
-    SDL_DestroyWindow(V -> _SDL_Window);
-    SDL_DestroyRenderer(V -> _SDL_Renderer);
+    SDL_DestroyWindow(V->_SDL_Window);
+    SDL_DestroyRenderer(V->_SDL_Renderer);
     SDL_Quit();
     IMG_Quit();
 
@@ -102,48 +102,48 @@ void VACA_Destroy(VACA *V)
 void VACA_ClearScreen(VACA *V, unsigned char r, unsigned char g, unsigned char b)
 {
     VACA_SetRenderDrawColor(V, r, g, b);
-    SDL_RenderClear(V -> _SDL_Renderer);
+    SDL_RenderClear(V->_SDL_Renderer);
 }
 
 void VACA_DrawRect(VACA *V, SDL_Rect *rect, unsigned char r, unsigned char g, unsigned char b)
 {
     VACA_SetRenderDrawColor(V, r, g, b);
-    SDL_RenderFillRect(V -> _SDL_Renderer, rect);
+    SDL_RenderFillRect(V->_SDL_Renderer, rect);
 }
 
 
 void VACA_StartFrame(VACA *V)
 {
-    V -> _currentCounter = SDL_GetPerformanceCounter(); // Get current time
-    V -> deltaTime = (double)((V -> _currentCounter - V -> _lastCounter) / V -> _performanceFrequency); // Calculate elapsed time
-    V -> _lastCounter = V -> _currentCounter;
+    V->_currentCounter = SDL_GetPerformanceCounter(); // Get current time
+    V->deltaTime = (double)((V->_currentCounter - V -> _lastCounter) / V->_performanceFrequency); // Calculate elapsed time
+    V->_lastCounter = V->_currentCounter;
 }
 void VACA_EndFrame(VACA *V)
 {
     Uint64 currentCounter = SDL_GetPerformanceCounter();
-    double frameTime = (double)(currentCounter - V -> _lastCounter) / V -> _performanceFrequency;
+    double frameTime = (double)(currentCounter - V->_lastCounter) / V->_performanceFrequency;
 
-    if(frameTime < V -> _frameDelay)
+    if(frameTime < V->_frameDelay)
     {
-        SDL_Delay((Uint32)((V -> _frameDelay - frameTime))); // Delay by the difference between the delta time and elapsed time
+        SDL_Delay((Uint32)((V->_frameDelay - frameTime))); // Delay by the difference between the delta time and elapsed time
     }
 }
 
 Sprite *VACA_CreateSprite(VACA *V, const char *path, int width, int height, int x, int y)
 {
     Sprite *sprite = (Sprite*)malloc(sizeof(Sprite));
-    sprite -> _SDL_Texture = IMG_LoadTexture(V -> _SDL_Renderer, path);
+    sprite->_SDL_Texture = IMG_LoadTexture(V->_SDL_Renderer, path);
 
-    if(sprite -> _SDL_Texture == NULL)
+    if(sprite->_SDL_Texture == NULL)
     {
         fprintf(stderr, "Failed to load texture:\n%s\n", IMG_GetError());
         return NULL;
     }
 
-    sprite -> rect.w = width;
-    sprite -> rect.h = height;
-    sprite -> rect.x = x;
-    sprite -> rect.y = y;
+    sprite->rect.w = width;
+    sprite->rect.h = height;
+    sprite->rect.x = x;
+    sprite->rect.y = y;
 
     return sprite;
 }
@@ -152,14 +152,14 @@ void VACA_DestroySprite(Sprite *S)
 {
     if(S == NULL) return;
 
-    SDL_DestroyTexture(S -> _SDL_Texture);
+    SDL_DestroyTexture(S->_SDL_Texture);
     free(S);
 }
 
 Spritesheet *VACA_CreateSpritesheet(VACA *V, const char *path, int tileWidth, int tileHeight, int x, int y)
 {
     Spritesheet *spritesheet = (Spritesheet*)malloc(sizeof(Spritesheet));
-    spritesheet->_SDL_Texture = IMG_LoadTexture(V -> _SDL_Renderer, path);
+    spritesheet->_SDL_Texture = IMG_LoadTexture(V->_SDL_Renderer, path);
 
     if(spritesheet->_SDL_Texture == NULL)
     {
@@ -167,15 +167,15 @@ Spritesheet *VACA_CreateSpritesheet(VACA *V, const char *path, int tileWidth, in
         return NULL;
     }
 
-    spritesheet -> rect.w = tileWidth;
-    spritesheet -> rect.h = tileHeight;
-    spritesheet -> rect.x = x;
-    spritesheet -> rect.y = y;
+    spritesheet->rect.w = tileWidth;
+    spritesheet->rect.h = tileHeight;
+    spritesheet->rect.x = x;
+    spritesheet->rect.y = y;
 
-    spritesheet -> _sourceRect.w = tileWidth;
-    spritesheet -> _sourceRect.h = tileHeight;
-    spritesheet -> _sourceRect.x = 0;
-    spritesheet -> _sourceRect.y = 0;
+    spritesheet->_sourceRect.w = tileWidth;
+    spritesheet->_sourceRect.h = tileHeight;
+    spritesheet->_sourceRect.x = 0;
+    spritesheet->_sourceRect.y = 0;
 
     return spritesheet;
 }
@@ -184,7 +184,7 @@ void VACA_DestroySpritesheet(Spritesheet *SS)
 {
     if(SS == NULL) return;
 
-    SDL_DestroyTexture(SS -> _SDL_Texture);
+    SDL_DestroyTexture(SS->_SDL_Texture);
     free(SS);
 }
 
@@ -210,7 +210,7 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
 
     int length;
     char **rows = SplitString(tileInformation, '\n', &length);
-    if (length < 1 || rows == NULL) 
+    if(length < 1 || rows == NULL) 
     {
         printf("Empty tilemap or invalid data\n");
         free(t);
@@ -218,7 +218,7 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
     }
 
     t->_tileCollections = (_TileCollection *)malloc(sizeof(_TileCollection) * length);
-    if (t->_tileCollections == NULL) 
+    if(t->_tileCollections == NULL) 
     {
         printf("Failed to allocate memory for tile collections\n");
         DestroyStringList(rows, length);
@@ -255,7 +255,7 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
 
         int amountOfPositions;
         char **positions = SplitString(information[1], '|', &amountOfPositions);
-        if (positions == NULL || amountOfPositions % 2 != 0) 
+        if(positions == NULL || amountOfPositions % 2 != 0) 
         {
             printf("Invalid positions data for tile collection at row %d\n", i);
             DestroyStringList(information, parts);
@@ -266,7 +266,7 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
 
         int positionCount = amountOfPositions / 2;
         tc.positions = (Vector2_i *)malloc(sizeof(Vector2_i) * positionCount);
-        if (tc.positions == NULL) 
+        if(tc.positions == NULL) 
         {
             printf("Failed to allocate memory for positions at row %d\n", i);
             DestroyStringList(information, parts);
