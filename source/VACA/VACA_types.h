@@ -122,16 +122,18 @@ typedef struct Spritesheet
  */
 typedef struct _TileCollection
 {
-    u16              type;
+    Vector2_i        type;
     Vector2_i       *positions;
+    int              numberOfPositions;
 } _TileCollection;
 /**
  *  @brief A tilemap
  */
 typedef struct Tilemap
 {
+    Vector2_i        offset;
+    
     Spritesheet     *_spritesheet;
-    int              _map;
     _TileCollection *_tileCollections;
     u16              _numberOfTileCollections;
 } Tilemap;

@@ -202,8 +202,9 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
         printf("Failed to allocate memory for tilemap");
     }
 
-    t -> _spritesheet = spritesheet;
-    t -> _numberOfTileCollections = 0;
+    t->_spritesheet = spritesheet;
+    t->_numberOfTileCollections = 0;
+    t->offset.x = 0; t->offset.y = 0;
 
     int length; char **rows = SplitString(tileInformation, '\n', &length);
     if(length < 1 || rows == NULL)
@@ -213,8 +214,8 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
         return NULL;
     }
 
-    t -> _tileCollections = (_TileCollection*)malloc(sizeof(_TileCollection) * length);
-    if(t -> _tileCollections == NULL)
+    t->_tileCollections = (_TileCollection*)malloc(sizeof(_TileCollection) * length);
+    if(t->_tileCollections == NULL)
     {
         printf("Failed to allocate memory for tile collections");
         DestroyStringList(rows);
@@ -234,7 +235,15 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
         }
 
         _TileCollection tc = { 0 };
-        tc.type = SDL_atoi(information[0]);
+
+        int typeInformationParts = 0;
+        char **typeInformation = SplitString(information[0], '|', &typeInformationParts);
+        if(typeInformationParts != 2 || typeInformation == NULL)
+        {
+            printf("Insufficient information for tilemap at row %d\n", i);
+            DestroyStringList(typeInformation);
+        }
+        tc.type = (Vector2_i){ SDL_atoi(typeInformation[0]), SDL_atoi(typeInformation[1]) };
 
         int amountOfPositions;
         char **positions = SplitString(information[1], '|', &amountOfPositions);
@@ -256,6 +265,8 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
             continue;
         }
 
+        tc.numberOfPositions = positionCount;
+
         for (int h = 0; h < amountOfPositions; h += 2) 
         {
             tc.positions[h / 2].x = SDL_atoi(positions[h]);
@@ -266,6 +277,7 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
         t -> _numberOfTileCollections++;
 
         DestroyStringList(information);
+        DestroyStringList(typeInformation);
         DestroyStringList(positions);
     }
 
@@ -274,16 +286,32 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
     return t;
 }
 
+void VACA_DrawTilemap(VACA *V, Tilemap *T)
+{
+    for(int i = 0; i < T->_numberOfTileCollections; i++)
+    {
+        T->_spritesheet->_sourceRect.x = T->_tileCollections[i].type.x;
+        T->_spritesheet->_sourceRect.y = T->_tileCollections[i].type.y;
+
+        for(int j = 0; j < T->_tileCollections[i].numberOfPositions; j++)
+        {
+            T->_spritesheet->rect.x = T->_tileCollections[i].positions[j].x + T->offset.x;
+            T->_spritesheet->rect.y = T->_tileCollections[i].positions[j].y + T->offset.y;
+            SDL_RenderCopy(V->_SDL_Renderer, T->_spritesheet->_SDL_Texture, &T->_spritesheet->_sourceRect, &T->_spritesheet->rect);
+        }
+    }
+}
+
 void VACA_DestroyTilemap(Tilemap *t)
 {
     if(t == NULL) return;
 
-    for(int i = 0; i < t -> _numberOfTileCollections; i++)
+    for(int i = 0; i < t->_numberOfTileCollections; i++)
     {
-        free(t -> _tileCollections[i].positions);
+        free(t->_tileCollections[i].positions);
     }
-    free(t -> _tileCollections);
+    free(t->_tileCollections);
 
-    VACA_DestroySpritesheet(t -> _spritesheet);
+    VACA_DestroySpritesheet(t->_spritesheet);
     free(t);
 }

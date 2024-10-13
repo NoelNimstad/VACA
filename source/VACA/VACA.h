@@ -220,6 +220,9 @@ void         VACA_DestroySpritesheet(Spritesheet *SS);
 #define      VACA_DistanceBetween(_x1, _y1, _x2, _y2) (sqrtf(((_x2) - (_x1)) * ((_x2) - (_x1)) + ((_y2) - (_y1)) * ((_y2) - (_y1))))
 
 Tilemap     *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spritesheet);
+void         VACA_DrawTilemap(VACA *V, Tilemap *T);
+#define      VACA_OffsetTilemap(_T, _x, _y) (_T)->offset.x = (_x); \
+                                            (_T)->offset.y = (_y);
 void         VACA_DestroyTilemap(Tilemap *t);
 
 #define      VACA_ResizeWindow(_V, _w, _h) SDL_SetWindowSize((_V) -> _SDL_Window, (_w), (_h))
