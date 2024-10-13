@@ -87,4 +87,7 @@ void DestroyStringList(char **stringList);
  */
 #define randomBetween(_l, _u) ((_l) + rand() % ((_u) - (_l) + 1))
 
+// Main function
+#define mainFunction int main(int argc, char *argv[])
+
 #endif // VACA_utils_h
