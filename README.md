@@ -13,7 +13,7 @@ VACA by Noel Nimstad is marked with CC0 1.0 Universal
 
 #define SPEED 300
 
-int main(int argc, char *argv[]) // or 'mainFunction'
+int main(int argc, char *argv[])
 {
     // Initialize a window at 320x240, scale 2, 60fps target frame rate
     VACA *V = VACA_Initialize("Test Window", 320, 240, 2, 60);
