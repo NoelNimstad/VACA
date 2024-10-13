@@ -54,13 +54,7 @@ void WriteStructToFile(void *s, const size_t structSize, const char *path);
  * @param _s String to count from, of type `char*`
  * @param _c Char to count, of type `char`
  */
-#define CountChars(_s, _c) ({ int CHAR_COUNTER = 0;                 \
-                              for (int i = 0; (_s)[i] != '\0'; i++) \
-                              {                                     \
-                                  if ((_s)[i] == (_c))              \
-                                  CHAR_COUNTER++;                   \
-                              }                                     \
-                              CHAR_COUNTER; })
+u32 CountChars(const char* s, char c);
 
 /**
  * @brief Splits the string into substrings at delimiter `token`

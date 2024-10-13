@@ -79,6 +79,19 @@ void WriteStructToFile(void *s, size_t structSize, const char *path)
     fclose(filePointer);
 }
 
+u32 CountChars(const char* s, char c) 
+{
+    int CHAR_COUNTER = 0;
+    for(int i = 0; s[i] != '\0'; i++) 
+    {
+        if(s[i] == c) 
+        {
+            CHAR_COUNTER++;
+        }
+    }
+    return CHAR_COUNTER;
+}
+
 char **SplitString(const char *string, char token, int *listLength)
 {
     int parts = CountChars(string, token);
