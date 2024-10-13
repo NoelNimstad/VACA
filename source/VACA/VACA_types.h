@@ -49,7 +49,7 @@
 /**
  * @brief An integer 2 dimensional vector 
  */
-typedef struct Vector2_i
+typedef struct
 {
     i16              x, y;
 } Vector2_i;
@@ -63,7 +63,7 @@ typedef struct Vector2_i
 /**
  * @brief A floating point 2 dimensional vector 
  */
-typedef struct Vector2_f
+typedef struct
 {
     float            x, y;
 } Vector2_f;
@@ -71,7 +71,7 @@ typedef struct Vector2_f
 /**
  * @brief The VACA struct encapsulates all variables needed for the operation of the VACA SDL wrapper
  */
-typedef struct VACA
+typedef struct
 {
     SDL_Event        event;
     double           deltaTime;
@@ -100,7 +100,7 @@ typedef struct VACA
 /**
  * @brief A single sprite 
  */
-typedef struct Sprite
+typedef struct
 {
     SDL_Rect         rect;
     
@@ -109,7 +109,7 @@ typedef struct Sprite
 /**
  * @brief Multiple sprites
  */
-typedef struct Spritesheet
+typedef struct
 {
     SDL_Rect         rect;
 
@@ -120,7 +120,7 @@ typedef struct Spritesheet
 /**
  * @brief Internal struct for encapsulating an array of tiles of tile type `type` in a `Tilemap`
  */
-typedef struct _TileCollection
+typedef struct
 {
     Vector2_i        type;
     Vector2_i       *positions;
@@ -129,7 +129,7 @@ typedef struct _TileCollection
 /**
  *  @brief A tilemap
  */
-typedef struct Tilemap
+typedef struct
 {
     Vector2_i        offset;
     

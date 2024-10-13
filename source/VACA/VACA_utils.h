@@ -76,7 +76,7 @@ char **SplitString(const char *string, char token, int *listLength);
  * 
  * @param stingList String list to destroy
  */
-void DestroyStringList(char **stringList);
+void DestroyStringList(char **stringList, int length);
 
 /**
  * @brief Macro to seed the random function 

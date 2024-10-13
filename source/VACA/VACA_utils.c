@@ -82,7 +82,7 @@ void WriteStructToFile(void *s, size_t structSize, const char *path)
 char **SplitString(const char *string, char token, int *listLength)
 {
     int parts = CountChars(string, token);
-    char **stringList = (char**)malloc(sizeof(char*) * parts);
+    char **stringList = (char**)malloc(sizeof(char*) * (parts + 1));
     if(stringList == NULL)
     {
         fprintf(stderr, "Memory allocation failed\n");
@@ -122,9 +122,8 @@ char **SplitString(const char *string, char token, int *listLength)
 
     return stringList;
 }
-void DestroyStringList(char **stringList)
+void DestroyStringList(char **stringList, int length)
 {
-    int length = sizeof(stringList) / sizeof(char*);
     for(int i = 0; i < length; i++)
     {
         free(stringList[i]);

@@ -171,7 +171,7 @@ void         VACA_DestroySprite(Sprite *S);
  * 
  * @return A pointer to the initialized spritesheet, of type `Spritesheet*` 
  */
-Spritesheet *VACA_CreateSpritesheet(VACA *V, const char *path, int width, int height, int tileWidth, int tileHeight, int x, int y);
+Spritesheet *VACA_CreateSpritesheet(VACA *V, const char *path, int tileWidth, int tileHeight, int x, int y);
 /**
  * @brief Marcro to mark the sprite at coordinates (`X`, `Y`) from the spritesheet `SS` as the active one; e.g the one which will be drawn upon calling `VACA_DrawSpriteFromSpritesheet`
  * 
@@ -219,10 +219,36 @@ void         VACA_DestroySpritesheet(Spritesheet *SS);
  */
 #define      VACA_DistanceBetween(_x1, _y1, _x2, _y2) (sqrtf(((_x2) - (_x1)) * ((_x2) - (_x1)) + ((_y2) - (_y1)) * ((_y2) - (_y1))))
 
+/**
+ * @brief Initializes a tilemap which can be drawn using the `VACA_DrawTilemap` method
+ * 
+ * @param tileInformation Information in VACA tilemap format
+ * @param spritesheet Pointer to the spritesheet to use
+ * 
+ * @return A pointer to the initialized tilemap, of type `Tilemap*` 
+ */
 Tilemap     *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spritesheet);
+/**
+ * @brief Renders a tilemap
+ * 
+ * @param V Pointer to the program's VACA struct
+ * @param T Pointer to the tilemap
+ */
 void         VACA_DrawTilemap(VACA *V, Tilemap *T);
+/**
+ * @brief Macro to offset a tilemap to coordinate `_x` and `_y`
+ * 
+ * @param _V Pointer to the program's VACA struct, of type `VACA*`
+ * @param _x x coordinate, of type `int`
+ * @param _y y coordinate, of type `int`
+ */
 #define      VACA_OffsetTilemap(_T, _x, _y) (_T)->offset.x = (_x); \
                                             (_T)->offset.y = (_y);
+/**
+ * @brief De-initializes tilemap
+ * 
+ * @param t Pointer to the target tilemap
+ */
 void         VACA_DestroyTilemap(Tilemap *t);
 
 #define      VACA_ResizeWindow(_V, _w, _h) SDL_SetWindowSize((_V) -> _SDL_Window, (_w), (_h))

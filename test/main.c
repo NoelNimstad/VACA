@@ -1,14 +1,14 @@
 #include "VACA/VACA.h"
 
-mainFunction
+int main(void)
 {
     VACA *v = VACA_Initialize("tilemap", 320, 240, 2, 60);
-    Tilemap *t = VACA_CreateTilemap(ReadFile("Resources/map.txt"),
-                                    VACA_CreateSpritesheet(v, "Resources/map.png", 30, 30, 10, 10, 0, 0));
+    Spritesheet *s = VACA_CreateSpritesheet(v, "Resources/map.png", 10, 10, 0, 0);
+    char *contents = ReadFile("Resources/map.txt");
+    Tilemap *t = VACA_CreateTilemap(contents, s);
     VACA_SetRenderDrawColor(v, 0, 0, 0);
 
     u8 running = 1;
-    u8 frame = 0;
     while(running)
     {
         VACA_StartFrame(v);
@@ -22,7 +22,7 @@ mainFunction
         }
 
         VACA_ClearScreen2(v);  
-        VACA_OffsetTilemap(t, ++frame, ++frame);                         
+        VACA_OffsetTilemap(t, 0, 0);                         
         VACA_DrawTilemap(v, t);
         VACA_RenderPresent(v);
 
@@ -30,6 +30,8 @@ mainFunction
     }
 
     VACA_DestroyTilemap(t);
+    free(contents);
+    VACA_DestroySpritesheet(s);
     VACA_Destroy(v);
     return 0;
 }
