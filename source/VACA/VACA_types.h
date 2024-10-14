@@ -51,7 +51,7 @@
  */
 typedef struct
 {
-    i16              x, y;
+    int              x, y;
 } Vector2_i;
 /**
  * @brief Initializes a Vector2_f
