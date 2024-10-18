@@ -105,12 +105,6 @@ void VACA_ClearScreen(VACA *V, unsigned char r, unsigned char g, unsigned char b
     SDL_RenderClear(V->_SDL_Renderer);
 }
 
-void VACA_DrawRect(VACA *V, SDL_Rect *rect, unsigned char r, unsigned char g, unsigned char b)
-{
-    VACA_SetRenderDrawColor(V, r, g, b);
-    SDL_RenderFillRect(V->_SDL_Renderer, rect);
-}
-
 
 void VACA_StartFrame(VACA *V)
 {

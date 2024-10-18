@@ -70,17 +70,6 @@ void         VACA_ClearScreen(VACA *V, unsigned char r, unsigned char g, unsigne
 #define      VACA_ClearScreen2(_V) SDL_RenderClear((_V) -> _SDL_Renderer);
 
 /**
- * @brief Draws rectangle 
- * 
- * @param V Pointer to the program's VACA struct
- * @param rect Pointer to an `SDL_Struct` representing the rectangle
- * @param r Red color value
- * @param g Green color value
- * @param b Blue color value
- */
-void         VACA_DrawRect(VACA *V, SDL_Rect *rect, unsigned char r, unsigned char g, unsigned char b);
-
-/**
  * @brief Maintains the programs target frame rate. Call at the end of each frame.
  * 
  * @param V Pointer to the program's VACA struct
@@ -254,5 +243,10 @@ void         VACA_DestroyTilemap(Tilemap *t);
 #define      VACA_ResizeWindow(_V, _w, _h) SDL_SetWindowSize((_V) -> _SDL_Window, (_w), (_h))
 #define      VACA_MoveWindow(_V, _x, _y) SDL_SetWindowPosition((_V) -> _SDL_Window, (_x), (_y))
 #define      VACA_RetitleWindow(_V, _s) SDL_SetWindowTitle((_V) -> _SDL_Window, (_s))
+
+#define      VACA_FillRect(_V, _r) SDL_RenderFillRect((_V) -> _SDL_Renderer, &(_r))
+#define      VACA_FillRects(_V, _r, _c) SDL_RenderFillRects((_V) -> _SDL_Renderer, &(_r), (_c))
+#define      VACA_OutlineRect(_V, _r) SDL_RenderDrawRect((_V) -> _SDL_Renderer, &(_r))
+#define      VACA_OutlineRects(_V, _r, _c) SDL_RenderDrawRects((_V) -> _SDL_Renderer, &(_r), (_c))
 
 #endif // VACA_h
