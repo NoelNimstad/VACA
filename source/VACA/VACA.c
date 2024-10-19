@@ -125,12 +125,19 @@ void VACA_EndFrame(VACA *V)
 
 Sprite *VACA_CreateSprite(VACA *V, const char *path, int width, int height, int x, int y)
 {
+    if(path == NULL || width < 1 || height < 1)
+    {
+        fprintf(stderr, "Invalid arguments for VACA_CreateSprite\n");
+        return NULL;
+    }
+
     Sprite *sprite = (Sprite*)malloc(sizeof(Sprite));
     sprite->_SDL_Texture = IMG_LoadTexture(V->_SDL_Renderer, path);
 
     if(sprite->_SDL_Texture == NULL)
     {
         fprintf(stderr, "Failed to load texture:\n%s\n", IMG_GetError());
+        free(sprite);
         return NULL;
     }
 
@@ -158,6 +165,7 @@ Spritesheet *VACA_CreateSpritesheet(VACA *V, const char *path, int tileWidth, in
     if(spritesheet->_SDL_Texture == NULL)
     {
         fprintf(stderr, "Failed to load texture:\n%s\n", IMG_GetError());
+        free(spritesheet);
         return NULL;
     }
 
