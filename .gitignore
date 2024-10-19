@@ -1,9 +1,0 @@
-.DS_Store
-.vscode/
-build/
-libraries/
-include/
-test.c
-ignore
-makefile
-old
