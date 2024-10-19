@@ -146,9 +146,33 @@ void destroyStringList(char **stringList, int length)
 
 const char* getFileFromUserInput(void)
 {
-#ifdef __WIN64
-    // TODO
+#if defined(__WIN64) || defined(__WIN32)
+    static char file_path[MAX_PATH]; 
+
+    OPENFILENAME ofn;
+    ZeroMemory(&ofn, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = NULL;
+    ofn.lpstrFile = file_path;
+    ofn.lpstrFile[0] = '\0';
+    ofn.nMaxFile = sizeof(file_path);
+    ofn.lpstrFilter = "All Files\0*.*\0Text Files\0*.TXT\0";
+    ofn.nFilterIndex = 1;
+    ofn.lpstrFileTitle = NULL;
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrInitialDir = NULL;
+    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+    if(GetOpenFileName(&ofn)) 
+    {
+        return file_path;
+    } else 
+    {
+        return NULL;
+    }
 #elif __APPLE__
     return VACA_OSX_openFileDialog();
+#else
+    return NULL;
 #endif
 }
