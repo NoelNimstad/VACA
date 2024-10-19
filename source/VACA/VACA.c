@@ -203,7 +203,7 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
     t->offset.y = 0;
 
     int length;
-    char **rows = SplitString(tileInformation, '\n', &length);
+    char **rows = splitString(tileInformation, '\n', &length);
     if(length < 1 || rows == NULL) 
     {
         printf("Empty tilemap or invalid data\n");
@@ -215,7 +215,7 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
     if(t->_tileCollections == NULL) 
     {
         printf("Failed to allocate memory for tile collections\n");
-        DestroyStringList(rows, length);
+        destroyStringList(rows, length);
         free(t);
         return NULL;
     }
@@ -223,24 +223,24 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
     for(int i = 0; i < length; i++) 
     {
         int parts;
-        char **information = SplitString(rows[i], ' ', &parts);
+        char **information = splitString(rows[i], ' ', &parts);
         if(information == NULL || parts != 2) 
         {
             printf("%d\n", parts);
             printf("Insufficient information for tilemap at row %d\n", i);
-            DestroyStringList(information, parts);
+            destroyStringList(information, parts);
             continue;
         }
 
         _TileCollection tc = { 0 };
 
         int typeInformationParts = 0;
-        char **typeInformation = SplitString(information[0], '|', &typeInformationParts);
+        char **typeInformation = splitString(information[0], '|', &typeInformationParts);
         if(typeInformation == NULL || typeInformationParts != 2) 
         {
             printf("Invalid type information at row %d\n", i);
-            DestroyStringList(information, parts);
-            DestroyStringList(typeInformation, typeInformationParts);
+            destroyStringList(information, parts);
+            destroyStringList(typeInformation, typeInformationParts);
             continue;
         }
 
@@ -248,13 +248,13 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
         tc.type.y = SDL_atoi(typeInformation[1]);
 
         int amountOfPositions;
-        char **positions = SplitString(information[1], '|', &amountOfPositions);
+        char **positions = splitString(information[1], '|', &amountOfPositions);
         if(positions == NULL || amountOfPositions % 2 != 0) 
         {
             printf("Invalid positions data for tile collection at row %d\n", i);
-            DestroyStringList(information, parts);
-            DestroyStringList(typeInformation, typeInformationParts);
-            DestroyStringList(positions, amountOfPositions);
+            destroyStringList(information, parts);
+            destroyStringList(typeInformation, typeInformationParts);
+            destroyStringList(positions, amountOfPositions);
             continue;
         }
 
@@ -263,9 +263,9 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
         if(tc.positions == NULL) 
         {
             printf("Failed to allocate memory for positions at row %d\n", i);
-            DestroyStringList(information, parts);
-            DestroyStringList(typeInformation, typeInformationParts);
-            DestroyStringList(positions, amountOfPositions);
+            destroyStringList(information, parts);
+            destroyStringList(typeInformation, typeInformationParts);
+            destroyStringList(positions, amountOfPositions);
             continue;
         }
 
@@ -279,12 +279,12 @@ Tilemap *VACA_CreateTilemap(const char *tileInformation, Spritesheet *spriteshee
 
         t->_tileCollections[t->_numberOfTileCollections++] = tc;
 
-        DestroyStringList(information, parts);
-        DestroyStringList(typeInformation, typeInformationParts);
-        DestroyStringList(positions, amountOfPositions);
+        destroyStringList(information, parts);
+        destroyStringList(typeInformation, typeInformationParts);
+        destroyStringList(positions, amountOfPositions);
     }
 
-    DestroyStringList(rows, length);
+    destroyStringList(rows, length);
 
     return t;
 }

@@ -5,6 +5,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef __WIN64
+#include <windows.h>
+#elif __APPLE__
+#include "osx/VACA_cocoa.h"
+#endif
+
 // Integer types
 typedef signed char            i8;
 typedef unsigned char          u8;
@@ -21,14 +27,14 @@ typedef unsigned long long int u64;
  * @param path The path to the file
  * @return The contents of the file as a `char*` 
  */
-char *ReadFile(const char *path);
+char *readFile(const char *path);
 /**
  * @brief Writes the contents of `contents` to a file at path `path`
  * 
  * @param contents The contents to write to the file
  * @param path The path of where to write
  */
-void WriteFile(const char *contents, const char *path);
+void writeFile(const char *contents, const char *path);
 
 /**
  * @brief Reads a struct to memory adress `s` with size `struct_size` from the file at path `path`
@@ -38,7 +44,7 @@ void WriteFile(const char *contents, const char *path);
  * @param path The path to the file
  * @return 0 for success, 1 for failiure (e.g file is empty)
  */
-u8 ReadStructFromFile(void *s, const size_t struct_size, const char *path);
+u8 readStructFromFile(void *s, const size_t struct_size, const char *path);
 /**
  * @brief Writes a struct to file at path `path` with size `struct_size` from struct `s`
  * 
@@ -46,7 +52,7 @@ u8 ReadStructFromFile(void *s, const size_t struct_size, const char *path);
  * @param struct_size The size of said struct
  * @param path The path to the file
  */
-void WriteStructToFile(void *s, const size_t structSize, const char *path);
+void writeStructToFile(void *s, const size_t structSize, const char *path);
 
 /**
  * @brief Counts the occurnces of `_c` in string `_s`
@@ -54,7 +60,7 @@ void WriteStructToFile(void *s, const size_t structSize, const char *path);
  * @param _s String to count from, of type `char*`
  * @param _c Char to count, of type `char`
  */
-u32 CountChars(const char* s, char c);
+u32 countChars(const char* s, char c);
 
 /**
  * @brief Splits the string into substrings at delimiter `token`
@@ -64,13 +70,13 @@ u32 CountChars(const char* s, char c);
  * @param listLength Pointer to where to store the length of the list
  * @return An array of substrings, of type `char**`
  */
-char **SplitString(const char *string, char token, int *listLength);
+char **splitString(const char *string, char token, int *listLength);
 /**
  * @brief Destroys string list allocated with `malloc`
  * 
  * @param stingList String list to destroy
  */
-void DestroyStringList(char **stringList, int length);
+void destroyStringList(char **stringList, int length);
 
 /**
  * @brief Macro to seed the random function 
@@ -80,5 +86,12 @@ void DestroyStringList(char **stringList, int length);
  * @brief Generates a random integer between `_l` and `_u`
  */
 #define randomBetween(_l, _u) ((_l) + rand() % ((_u) - (_l) + 1))
+
+/**
+ * @brief Opens a panel for the user to select a file
+ * 
+ * @return Path to selected file
+ */
+const char* getFileFromUserInput(void);
 
 #endif // VACA_utils_h

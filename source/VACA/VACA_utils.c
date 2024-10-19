@@ -1,6 +1,6 @@
 #include "VACA_utils.h"
 
-char *ReadFile(const char *path)
+char *readFile(const char *path)
 {
     FILE *filePointer = fopen(path, "r");
     if(filePointer == NULL)
@@ -28,7 +28,7 @@ char *ReadFile(const char *path)
     return contents;
 }
 
-void WriteFile(const char *contents, const char *path)
+void writeFile(const char *contents, const char *path)
 {
     FILE *filePointer = fopen(path, "w");
     if(filePointer == NULL)
@@ -41,7 +41,7 @@ void WriteFile(const char *contents, const char *path)
     fclose(filePointer);
 }
 
-u8 ReadStructFromFile(void *s, const size_t struct_size, const char *path) 
+u8 readStructFromFile(void *s, const size_t struct_size, const char *path) 
 {
     FILE *filePointer = fopen(path, "rb");
     if(filePointer == NULL) 
@@ -61,7 +61,7 @@ u8 ReadStructFromFile(void *s, const size_t struct_size, const char *path)
     return 0;
 }
 
-void WriteStructToFile(void *s, size_t structSize, const char *path)
+void writeStructToFile(void *s, size_t structSize, const char *path)
 {
     FILE *filePointer = fopen(path, "wb");
     if(filePointer == NULL) 
@@ -79,7 +79,7 @@ void WriteStructToFile(void *s, size_t structSize, const char *path)
     fclose(filePointer);
 }
 
-u32 CountChars(const char* s, char c) 
+u32 countChars(const char* s, char c) 
 {
     int CHAR_COUNTER = 0;
     for(int i = 0; s[i] != '\0'; i++) 
@@ -92,9 +92,9 @@ u32 CountChars(const char* s, char c)
     return CHAR_COUNTER;
 }
 
-char **SplitString(const char *string, char token, int *listLength)
+char **splitString(const char *string, char token, int *listLength)
 {
-    int parts = CountChars(string, token);
+    int parts = countChars(string, token);
     char **stringList = (char**)malloc(sizeof(char*) * (parts + 1));
     if(stringList == NULL)
     {
@@ -135,11 +135,20 @@ char **SplitString(const char *string, char token, int *listLength)
 
     return stringList;
 }
-void DestroyStringList(char **stringList, int length)
+void destroyStringList(char **stringList, int length)
 {
     for(int i = 0; i < length; i++)
     {
         free(stringList[i]);
     }
     free(stringList);
+}
+
+const char* getFileFromUserInput(void)
+{
+#ifdef __WIN64
+    // TODO
+#elif __APPLE__
+    return VACA_OSX_openFileDialog();
+#endif
 }

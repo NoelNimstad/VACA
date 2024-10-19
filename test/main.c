@@ -4,10 +4,12 @@ int main(void)
 {
     VACA *v = VACA_Initialize("tilemap", 320, 240, 1, 60);
     Spritesheet *s = VACA_CreateSpritesheet(v, "Resources/map.png", 10, 10, 0, 0);
-    char *contents = ReadFile("Resources/map.txt");
+    char *contents = readFile("Resources/map.txt");
     Tilemap *t = VACA_CreateTilemap(contents, s);
 
     SDL_Rect rect = { 100, 100, 100, 100 };
+
+    getFileFromUserInput();
 
     u8 running = 1;
     float value = 0.0f;
