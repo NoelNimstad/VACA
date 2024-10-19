@@ -159,6 +159,12 @@ void VACA_DestroySprite(Sprite *S)
 
 Spritesheet *VACA_CreateSpritesheet(VACA *V, const char *path, int tileWidth, int tileHeight, int x, int y)
 {
+    if(path == NULL || tileWidth < 1 || tileHeight < 1)
+    {
+        fprintf(stderr, "Invalid arguments for VACA_CreateSprite\n");
+        return NULL;
+    }
+
     Spritesheet *spritesheet = (Spritesheet*)malloc(sizeof(Spritesheet));
     spritesheet->_SDL_Texture = IMG_LoadTexture(V->_SDL_Renderer, path);
 
